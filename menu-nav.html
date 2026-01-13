@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .tab-menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tab-menu-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 16px;
+            border-radius: 60px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tabs-scroll-container {
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            transition: all 0.3s ease;
+        }
+
+        .tabs-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs-list {
+            display: flex;
+            gap: 12px;
+            list-style: none;
+            transition: flex-wrap 0.3s ease;
+        }
+
+        /* Desktop: cuando está expandido */
+        @media (min-width: 768px) {
+            .tabs-scroll-container.expanded .tabs-list {
+                flex-wrap: wrap;
+            }
+
+            .tabs-scroll-container.expanded {
+                overflow: visible;
+            }
+        }
+
+        .tab-button {
+            flex-shrink: 0;
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid #d0d0d0;
+            background: white;
+            color: #5f6368;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-button:hover {
+            background: #f8f9fa;
+        }
+
+        .tab-button.active {
+            background: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        .menu-toggle-btn {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-toggle-btn:hover {
+            background: #333;
+        }
+
+        .menu-toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle-btn.active svg {
+            transform: rotate(90deg);
+        }
+
+        /* Mobile Bottom Sheet */
+        .bottom-sheet-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            display: block;
+        }
+
+        .bottom-sheet {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .bottom-sheet.active {
+            display: block;
+        }
+
+        .bottom-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: #d0d0d0;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        .bottom-sheet-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .bottom-sheet .tabs-list {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bottom-sheet .tab-button {
+            width: 100%;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hide bottom sheet on desktop */
+        @media (min-width: 768px) {
+
+            .bottom-sheet-overlay,
+            .bottom-sheet {
+                display: none !important;
+            }
+        }
+
+        /* Hide scroll on mobile when expanded */
+        @media (max-width: 767px) {
+            .tabs-scroll-container.expanded {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab-menu-container">
+        <div class="tab-menu-wrapper">
+            <div class="tabs-scroll-container" id="tabsContainer">
+                <ul class="tabs-list" id="tabsList">
+                    <li>
+                        <button class="tab-button active" data-tab="0">
+                            Insights de los consumidores
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-button" data-tab="1">
+                            Búsqueda y video
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-button" data-tab="2">
+                            Excelencia en IA
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-button" data-tab="3">
+                            Futuro del marketing
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tab-button" data-tab="4">
+                            Medición
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <button class="menu-toggle-btn" id="menuToggle" aria-label="Abrir menú">
+                <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg id="closeIcon" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Bottom Sheet Overlay -->
+        <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
+
+        <!-- Mobile Bottom Sheet -->
+        <div class="bottom-sheet" id="bottomSheet">
+            <div class="bottom-sheet-handle"></div>
+            <div class="bottom-sheet-title">Todas las opciones</div>
+            <!-- Tabs will be rendered here on mobile -->
+        </div>
+    </div>
+
+    <script>
+        const tabsContainer = document.getElementById('tabsContainer');
+        const tabsList = document.getElementById('tabsList');
+        const menuToggle = document.getElementById('menuToggle');
+        const menuIcon = document.getElementById('menuIcon');
+        const closeIcon = document.getElementById('closeIcon');
+        const bottomSheet = document.getElementById('bottomSheet');
+        const bottomSheetOverlay = document.getElementById('bottomSheetOverlay');
+
+        let isExpanded = false;
+        let activeTab = 0;
+
+        // Detectar si es mobile
+        const isMobile = () => window.innerWidth < 768;
+
+        // Toggle menu
+        menuToggle.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+
+            if (isMobile()) {
+                // Mobile: mostrar bottom sheet
+                bottomSheet.classList.toggle('active');
+                bottomSheetOverlay.classList.toggle('active');
+                document.body.style.overflow = isExpanded ? 'hidden' : '';
+
+                // Renderizar tabs en bottom sheet si no existen
+                if (isExpanded && bottomSheet.querySelectorAll('.tab-button').length === 0) {
+                    const bottomSheetList = document.createElement('ul');
+                    bottomSheetList.className = 'tabs-list';
+
+                    const originalButtons = tabsList.querySelectorAll('.tab-button');
+                    originalButtons.forEach((btn, index) => {
+                        const li = document.createElement('li');
+                        const button = document.createElement('button');
+                        button.className = `tab-button ${index === activeTab ? 'active' : ''}`;
+                        button.setAttribute('data-tab', index);
+                        button.textContent = btn.textContent.trim();
+                        li.appendChild(button);
+                        bottomSheetList.appendChild(li);
+                    });
+
+                    bottomSheet.appendChild(bottomSheetList);
+                }
+            } else {
+                // Desktop: hacer wrap
+                tabsContainer.classList.toggle('expanded');
+            }
+
+            // Toggle icons
+            menuIcon.style.display = isExpanded ? 'none' : 'block';
+            closeIcon.style.display = isExpanded ? 'block' : 'none';
+            menuToggle.classList.toggle('active');
+        });
+
+        // Cerrar bottom sheet al hacer click en overlay
+        bottomSheetOverlay.addEventListener('click', () => {
+            if (isMobile()) {
+                isExpanded = false;
+                bottomSheet.classList.remove('active');
+                bottomSheetOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Delegación de eventos para tabs
+        const handleTabClick = (e) => {
+            const button = e.target.closest('.tab-button');
+            if (!button) return;
+
+            const tabIndex = parseInt(button.getAttribute('data-tab'));
+            activeTab = tabIndex;
+
+            // Actualizar tabs en ambos lugares
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.getAttribute('data-tab')) === tabIndex) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Cerrar bottom sheet en mobile
+            if (isMobile() && isExpanded) {
+                isExpanded = false;
+                bottomSheet.classList.remove('active');
+                bottomSheetOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+                menuToggle.classList.remove('active');
+            }
+        };
+
+        // Event listeners
+        tabsList.addEventListener('click', handleTabClick);
+        bottomSheet.addEventListener('click', handleTabClick);
+
+        // Limpiar bottom sheet content al redimensionar
+        window.addEventListener('resize', () => {
+            if (!isMobile() && isExpanded) {
+                bottomSheet.classList.remove('active');
+                bottomSheetOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                const bottomSheetList = bottomSheet.querySelector('.tabs-list');
+                if (bottomSheetList) {
+                    bottomSheetList.remove();
+                }
+            } else if (isMobile() && isExpanded) {
+                tabsContainer.classList.remove('expanded');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Images loading | Test</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        /* skeleton.css */
+
+        .skeleton {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg,
+                    #f0f0f0 0%,
+                    #e0e0e0 50%,
+                    #f0f0f0 100%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+
+        .skeleton-image {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Transición suave al cargar */
+        .skeleton img {
+            opacity: 0;
+            animation: fade-in 0.4s ease-in forwards;
+        }
+
+        @keyframes fade-in {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estado loaded */
+        .loaded {
+            background: none;
+            animation: none;
+        }
+
+        /* Estado error */
+        .error {
+            background: #e2f3df;
+            background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24px' height='24px' viewBox='0,0,256,256'%3E%3Cg fill='green' fill-rule='nonzero' stroke='none' stroke-width='1' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' font-family='none' font-weight='none' font-size='none' text-anchor='none' style='mix-blend-mode: normal'%3E%3Cg transform='scale(10.66667,10.66667)'%3E%3Ccircle cx='17' cy='9' r='1'%3E%3C/circle%3E%3Crect x='-0.92675' y='2.70153' transform='rotate(-45.001)' width='2' height='27.614'%3E%3C/rect%3E%3Cpath d='M10.338,5.985h9.662v9.672l2,2.002v-11.674c0,-1.101 -0.9,-2.002 -2,-2.002h-11.662z'%3E%3C/path%3E%3Cpath d='M19.51,17.998h-15.51v-12.013h3.51l-2,-2.002h-1.51c-1.1,0 -2,0.901 -2,2.002v12.013c0,1.101 0.9,2.002 2,2.002h16c0.425,0 0.819,-0.137 1.144,-0.366z'%3E%3C/path%3E%3Cpath d='M13.571,12.061l-2.571,2.939l-2.5,-2.5l-2.7,3.5h11.71z'%3E%3C/path%3E%3Cg%3E%3Cpath d='M21,16.658v-10.673c0,-0.601 -0.4,-1.001 -1,-1.001h-10.662z' opacity='0.3'%3E%3C/path%3E%3Cpath d='M6.51,4.984h-2.51c-0.6,0 -1,0.4 -1,1.001v12.013c0,0.601 0.4,1.001 1,1.001h16c0.158,0 0.3,-0.031 0.427,-0.083z' opacity='0.3'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-position: 50% calc(50% - 20px);
+        }
+
+        .error img {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .error::after {
+            content: '';
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Registro oculto de imágenes para SEO y carga dinámica -->
+    <div id="seo-imgs" style="display:none;">
+        <!-- Logo principal -->
+        <img data-id="img-logo" data-section="hero" data-target=".hero-content .logo"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Artboard-1-copy-4.png"
+            data-alt="Casa Valentina Logo" data-animation="fade-in" loading="lazy" />
+
+        <!-- Chef Pablo -->
+        <img data-id="img-chef" data-section="nosotros" data-target=".nosotros-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chef-Pablo.webp"
+            data-alt="Chef Pablo López" data-animation="zoom" loading="lazy" />
+
+        <!-- Pan Dulce -->
+        <img data-id="img-pan-dulce" data-section="pan-dulce" data-target=".pan-dulce-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Concha.webp" data-alt="Pan Dulce"
+            data-animation="fade-in" loading="lazy" />
+
+        <!-- Tesoro de Oaxaca -->
+        <img data-id="img-tesoro" data-section="favoritos" data-target=".favorito-item:nth-child(1) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Tesoro-de-Oaxaca.webp"
+            data-alt="Tesoro de Oaxaca" data-animation="slide-up" loading="lazy" />
+
+        <!-- Chisme de Tendedero -->
+        <img data-id="img-chisme" data-section="favoritos" data-target=".favorito-item:nth-child(2) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chisme-de-Tendedero.webp"
+            data-alt="Chisme de Tendedero" data-animation="slide-up" loading="lazy" />
+
+        <!-- Pan Francés -->
+        <img data-id="img-pan-frances" data-section="favoritos"
+            data-target=".favorito-item:nth-child(3) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Pan-Frances.webp" data-alt="Pan Francés"
+            data-animation="slide-up" loading="lazy" />
+
+        <!-- Las de Miguel Hidalgo -->
+        <img data-id="img-miguel-hidalgo" data-section="favoritos"
+            data-target=".favorito-item:nth-child(4) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Las-de-MH.webp"
+            data-alt="Las de Miguel Hidalgo" data-animation="slide-up" loading="lazy" />
+
+        <!-- Virreynal -->
+        <img data-id="img-virreynal" data-section="favoritos" data-target=".favorito-item:nth-child(5) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Virreynal.webp" data-alt="Virreynal"
+            data-animation="slide-up" loading="lazy" />
+
+        <!-- Chilaquiles Divorciados -->
+        <img data-id="img-chilaquiles" data-section="favoritos"
+            data-target=".favorito-item:nth-child(6) .favorito-image"
+            data-src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chilaquiles-D.webp"
+            data-alt="Chilaquiles Divorciados" data-animation="slide-up" loading="lazy" />
+    </div>
+    <!--
+    =================
+    CONTENIDO
+    ================
+    -->
+    <!-- Nosotros -->
+    <section class="nosotros">
+        <div class="nosotros-image skeleton skeleton-image" data-skeleton="img-nosotros-image"
+            data-alt="Chef Pablo López"></div>
+    </section>
+
+
+</body>
+<script>
+    // state.js
+    const state = {
+        images: {
+            loading: new Set(),    // IDs en proceso de carga
+            loaded: new Set(),     // IDs ya cargados
+            errors: new Set(),     // IDs con error
+            hydrated: new Set(),   // IDs que reemplazaron skeleton
+        },
+        sections: {
+            // Se poblará dinámicamente
+        }
+    };
+
+    // dom.js
+    const DOM = {
+        seoImgs: document.querySelector('#seo-imgs'),
+        images: null,      // Todas las img[data-id]
+        skeletons: null,   // Todos los [data-skeleton]
+    };
+
+    function initDOMMapping() {
+        // Mapear imágenes SEO
+        DOM.images = Array.from(
+            DOM.seoImgs.querySelectorAll('[data-id]')
+        ).reduce((map, img) => {
+            map[img.dataset.id] = img;
+            return map;
+        }, {});
+
+        // Mapear skeletons
+        DOM.skeletons = Array.from(
+            document.querySelectorAll('[data-skeleton]')
+        ).reduce((map, skeleton) => {
+            map[skeleton.dataset.skeleton] = skeleton;
+            return map;
+        }, {});
+    }
+
+
+
+    /*============
+       CONFIGS
+    ============*/
+
+    // config.js
+    const config = {
+        images: {
+            animations: {
+                'fade-in': 'animate-fade-in',
+                'zoom': 'animate-zoom',
+                'slide-up': 'animate-slide-up',
+            },
+
+            // Clases de skeleton
+            skeletonClass: 'skeleton',
+            skeletonImageClass: 'skeleton-image',
+
+            // Duración mínima del skeleton (para UX)
+            minSkeletonDuration: 300,
+
+            // Opciones de observer
+            observerOptions: {
+                root: null,
+                rootMargin: '100px',
+                threshold: 0.01,
+            }
+        }
+    };
+
+    // actions.js
+
+    function startImageLoading(imageId) {
+        state.images.loading.add(imageId);
+    }
+
+    function markImageAsLoaded(imageId) {
+        state.images.loading.delete(imageId);
+        state.images.loaded.add(imageId);
+        renderImageLoaded(imageId);
+    }
+
+    function markImageAsError(imageId) {
+        state.images.loading.delete(imageId);
+        state.images.errors.add(imageId);
+        renderImageError(imageId);
+    }
+
+    function markImageAsHydrated(imageId) {
+        state.images.hydrated.add(imageId);
+    }
+
+    /*============
+        RENDER
+    ============*/
+
+    // render.js
+
+    function renderImageLoaded(imageId) {
+        const imgData = DOM.images[imageId];
+        if (!imgData) return;
+
+        const target = document.querySelector(imgData.dataset.target);
+        if (!target) return;
+
+        // Remover skeleton
+        target.classList.remove(config.images.skeletonClass);
+        target.classList.remove(config.images.skeletonImageClass);
+
+        // Agregar clase loaded
+        target.classList.add('loaded');
+    }
+
+    function renderImageError(imageId) {
+        const imgData = DOM.images[imageId];
+        if (!imgData) return;
+
+        const target = document.querySelector(imgData.dataset.target);
+        if (!target) return;
+
+        target.classList.remove(config.images.skeletonClass);
+        target.classList.add('error');
+    }
+
+    function hydrateImage(imageId) {
+        const imgData = DOM.images[imageId];
+        if (!imgData) {
+            console.warn(`Imagen no encontrada: ${imageId}`);
+            return;
+        }
+
+        // Validar que tenga data-target
+        const targetSelector = imgData.dataset.target;
+        if (!targetSelector) {
+            console.warn(`Imagen ${imageId} no tiene data-target`);
+            return;
+        }
+
+        // Validar que el target exista
+        const target = document.querySelector(targetSelector);
+        if (!target) {
+            console.warn(`Target no encontrado para ${imageId}: ${targetSelector}`);
+            return;
+        }
+
+        // Registrar inicio de carga
+        startImageLoading(imageId);
+
+        // Crear elemento <img>
+        const img = document.createElement('img');
+        img.src = imgData.dataset.src;
+        img.alt = imgData.dataset.alt || target.dataset.alt || '';
+        img.loading = 'lazy';
+
+        // Aplicar animación si existe
+        const animation = imgData.dataset.animation;
+        if (animation && config.images.animations[animation]) {
+            img.classList.add(config.images.animations[animation]);
+        }
+
+        // Eventos de carga
+        img.onload = () => {
+            // Esperar duración mínima del skeleton
+            setTimeout(() => {
+                markImageAsLoaded(imageId);
+                markImageAsHydrated(imageId);
+            }, config.images.minSkeletonDuration);
+        };
+
+        img.onerror = () => {
+            markImageAsError(imageId);
+        };
+
+        // Reemplazar contenido del target
+        target.innerHTML = '';
+        target.appendChild(img);
+    }
+
+
+    /*============
+        HYDRATE
+    ============*/
+
+
+    // hydrate.js
+
+    function hydrateAllImages() {
+        const imageIds = Object.keys(DOM.images);
+
+        imageIds.forEach(imageId => {
+            hydrateImage(imageId);
+        });
+    }
+
+    function hydrateVisibleImages() {
+        const observer = new IntersectionObserver(
+            handleImageIntersection,
+            config.images.observerOptions
+        );
+
+        // Observar todos los targets que tienen skeleton
+        Object.entries(DOM.images).forEach(([imageId, imgData]) => {
+            const target = document.querySelector(imgData.dataset.target);
+            if (target && target.classList.contains(config.images.skeletonClass)) {
+                observer.observe(target);
+            }
+        });
+    }
+
+    function handleImageIntersection(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Buscar qué imagen corresponde a este target
+                const target = entry.target;
+                const imageId = findImageIdByTarget(target);
+
+                if (imageId && !state.images.hydrated.has(imageId)) {
+                    hydrateImage(imageId);
+                    observer.unobserve(target);
+                }
+            }
+        });
+    }
+
+    function findImageIdByTarget(targetElement) {
+        // Buscar en el mapeo de imágenes cuál apunta a este target
+        for (const [imageId, imgData] of Object.entries(DOM.images)) {
+            const target = document.querySelector(imgData.dataset.target);
+            if (target === targetElement) {
+                return imageId;
+            }
+        }
+        return null;
+    }
+
+    /*============
+    HYDRATE FLEXIBLE
+    ============*/
+
+    // strategies.js
+
+    // Estrategia 1: Hidratar todo inmediatamente
+    function hydrateStrategy_Immediate() {
+        hydrateAllImages();
+    }
+
+    // Estrategia 2: Hidratar solo lo visible (lazy)
+    function hydrateStrategy_Lazy() {
+        hydrateVisibleImages();
+    }
+
+    // Estrategia 3: Hero primero, resto lazy
+    function hydrateStrategy_HeroFirst() {
+        // Hero inmediato
+        hydrateImage('img-logo');
+
+        // Resto lazy después de un delay
+        setTimeout(() => {
+            hydrateVisibleImages();
+        }, 500);
+    }
+
+    // Estrategia 4: Por secciones
+    function hydrateStrategy_BySections() {
+        const sections = {
+            hero: ['img-logo'],
+            nosotros: ['img-chef'],
+            'pan-dulce': ['img-pan-dulce'],
+            favoritos: [
+                'img-tesoro',
+                'img-chisme',
+                'img-pan-frances',
+                'img-miguel-hidalgo',
+                'img-virreynal',
+                'img-chilaquiles'
+            ]
+        };
+
+        // Hero inmediato
+        sections.hero.forEach(hydrateImage);
+
+        // Resto con observer
+        hydrateVisibleImages();
+    }
+
+
+    /*============
+        INIT
+    ============*/
+    // init.js
+
+    function initImageSystem() {
+        // 1. Mapear DOM
+        initDOMMapping();
+
+        // 2. Elegir estrategia de hydrate
+        hydrateStrategy_HeroFirst(); // ← Cambiar según necesidad
+
+        // 3. Log de confirmación
+        console.log('✓ Hydrate System iniciado', {
+            imágenes: Object.keys(DOM.images).length,
+            skeletons: Object.keys(DOM.skeletons).length,
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initImageSystem);
+
+</script>
+
+</html>

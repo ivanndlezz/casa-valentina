@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Casa Valentina - Jardín & Cocina</title>
+    <link rel="preload" href="https://casavalentina.com.mx/wp-content/uploads/2025/12/Hero.webp" as="image">
+    <link rel="stylesheet" href="./fonts/bodoni/bodoni.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: inherit;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: serif;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: #5a7d3f;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Full Screen Menu */
+        .fullscreen-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-content {
+            text-align: center;
+        }
+
+        .menu-content a {
+            display: block;
+            color: #2d451c;
+            text-decoration: none;
+            font-size: 2.5rem;
+            font-style: italic;
+            font-family: "BodoniFLF", serif;
+            ;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-content a:hover {
+            transform: scale(1.1);
+            letter-spacing: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background-color: #2d451c;
+            background-image: url("https://casavalentina.com.mx/wp-content/uploads/2025/12/Hero.webp");
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 150px;
+            margin: 0 auto;
+            margin-bottom: 60px;
+            object-fit: contain;
+            transform: scale(2);
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-family: "BodoniFLF", serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-family: "BodoniItalic";
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: rgba(90, 125, 63, 0.9);
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-style: italic;
+            font-weight: bold;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .cta-btn:hover {
+            background: white;
+            color: #5a7d3f;
+            transform: scale(1.05);
+        }
+
+        .contact-sidebar {
+            position: fixed;
+            right: 0;
+            bottom: 0px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .contact-sidebar * {
+            font-family: sans-serif;
+            text-transform: uppercase;
+        }
+
+        .contact-toggle {
+            background: #5a7d3f;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 30px 0 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-toggle:hover {
+            background: #6a8d4f;
+
+        }
+
+        .contact-icon-main {
+            width: 40px;
+            height: 40px;
+            background: #7a9d5f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-icon-main svg {
+            width: 100%;
+            height: 100%;
+            fill: white;
+
+        }
+
+        .contact-icon-main svg .contact-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            margin-top: -10px;
+        }
+
+        .contact-options {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            margin-top: -10px;
+        }
+
+        .contact-options.active {
+            max-height: 150px;
+            opacity: 1;
+            margin-top: 0;
+        }
+
+        .contact-btn {
+            background: #5a7d3f;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 30px 0 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-btn:hover {
+            background: #6a8d4f;
+
+        }
+
+        .contact-btn-icon {
+            width: 40px;
+            height: 40px;
+            background: #7a9d5f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Nosotros Section */
+        .nosotros {
+            background: radial-gradient(#a8be5f, #a8be5f);
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .nosotros-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .nosotros h2 {
+            font-size: 4rem;
+            font-family: "BodoniFLF", serif;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .nosotros-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .nosotros-image {
+            width: 100%;
+            border-radius: 10px;
+
+        }
+
+        .loaded img {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pan Dulce Section */
+        .pan-dulce {
+            background: #5a7d3f;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .pan-dulce-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .pan-dulce-image {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .pan-dulce-text h2 {
+            font-size: 4rem;
+            font-family: "BodoniFLF", serif;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .pan-dulce-text p {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Los Favoritos Section */
+        .favoritos {
+            background: radial-gradient(#a6bc5e, #a6bc5e);
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .favoritos h2 {
+            font-size: 4rem;
+            font-family: "BodoniFLF", serif;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .favoritos-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .favorito-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: rgba(90, 125, 63, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .favorito-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .favorito-text h3 {
+            font-size: 1.8rem;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .favorito-text p {
+            font-size: 1rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .favoritos-cta {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Opiniones Section */
+        .opiniones {
+            background: #5a7d3f;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .opiniones h2 {
+            font-size: 4rem;
+            font-family: "BodoniFLF", serif;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .opiniones-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .opinion-item {
+            text-align: center;
+        }
+
+        .stars {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .opinion-item h3 {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .opinion-item p {
+            font-size: 0.95rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Contacto Section */
+        .contacto {
+            background: radial-gradient(#a6bc5e, #a6bc5e);
+            padding: 80px 20px;
+            color: #2d451c;
+        }
+
+        .contacto h2 {
+            font-size: 4rem;
+            font-family: "BodoniFLF", serif;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .contacto-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contacto-info h3 {
+            font-size: 2rem;
+            font-family: "BodoniFLF", serif;
+            margin-bottom: 30px;
+        }
+
+        .contacto-details {
+            margin-bottom: 40px;
+        }
+
+        .contacto-details p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .contacto-details a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .horario {
+            margin-top: 30px;
+        }
+
+        .horario h4 {
+            font-size: 2rem;
+            font-family: "BodoniFLF", serif;
+            margin-bottom: 15px;
+        }
+
+        .facturacion-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #5a7d3f;
+            color: white;
+            text-decoration: none;
+            font-style: italic;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* skeleton.css */
+
+        .skeleton {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg,
+                    #f0f0f0 0%,
+                    #e0e0e0 50%,
+                    #f0f0f0 100%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+
+        .skeleton-image {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Transición suave al cargar */
+        .skeleton img {
+            opacity: 0;
+            animation: fade-in 0.4s ease-in forwards;
+        }
+
+        @keyframes fade-in {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estado loaded */
+        .loaded {
+            background: none;
+            animation: none;
+        }
+
+        /* Estado error */
+        .error {
+            background: #e2f3df;
+            background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24px' height='24px' viewBox='0,0,256,256'%3E%3Cg fill='green' fill-rule='nonzero' stroke='none' stroke-width='1' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' font-family='none' font-weight='none' font-size='none' text-anchor='none' style='mix-blend-mode: normal'%3E%3Cg transform='scale(10.66667,10.66667)'%3E%3Ccircle cx='17' cy='9' r='1'%3E%3C/circle%3E%3Crect x='-0.92675' y='2.70153' transform='rotate(-45.001)' width='2' height='27.614'%3E%3C/rect%3E%3Cpath d='M10.338,5.985h9.662v9.672l2,2.002v-11.674c0,-1.101 -0.9,-2.002 -2,-2.002h-11.662z'%3E%3C/path%3E%3Cpath d='M19.51,17.998h-15.51v-12.013h3.51l-2,-2.002h-1.51c-1.1,0 -2,0.901 -2,2.002v12.013c0,1.101 0.9,2.002 2,2.002h16c0.425,0 0.819,-0.137 1.144,-0.366z'%3E%3C/path%3E%3Cpath d='M13.571,12.061l-2.571,2.939l-2.5,-2.5l-2.7,3.5h11.71z'%3E%3C/path%3E%3Cg%3E%3Cpath d='M21,16.658v-10.673c0,-0.601 -0.4,-1.001 -1,-1.001h-10.662z' opacity='0.3'%3E%3C/path%3E%3Cpath d='M6.51,4.984h-2.51c-0.6,0 -1,0.4 -1,1.001v12.013c0,0.601 0.4,1.001 1,1.001h16c0.158,0 0.3,-0.031 0.427,-0.083z' opacity='0.3'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-position: 50% calc(50% - 20px);
+        }
+
+        .error img {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .error::after {
+            content: '';
+            font-size: 0.875rem;
+        }
+
+
+        /* Map loading */
+
+        .map-container:not(.loaded) {
+            width: 100%;
+            height: 100%;
+            background-color: #f2f2f2;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, .2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, .2) 1px, transparent 1px),
+                linear-gradient(to right, rgba(0, 0, 0, .4) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(0, 0, 0, .4) 2px, transparent 2px);
+            background-size:
+                20px 20px,
+                20px 20px,
+                100px 100px,
+                100px 100px;
+            background-position: -1% -1%;
+            animation: mapPulse 1.5s ease-in-out infinite;
+        }
+
+        .map-container.loading::before {
+            font-family: sans-serif;
+            content: "Casa Valentina\A ... \A \b";
+            white-space: pre-line;
+            position: absolute;
+            --wh: 15px;
+            top: var(--wh);
+            left: var(--wh);
+            background: #fff;
+            color: #333;
+            padding: 12px 20px 8px;
+            z-index: 10;
+            font-weight: 600;
+            /* bold */
+            width: 50%;
+            max-width: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-container.loading::after {
+            font-family: sans-serif;
+            content: "Cargando mapa…";
+            position: absolute;
+            top: calc(15px + 72px);
+            /* debajo del before */
+            left: 15px;
+            background: #fff;
+            color: #666;
+            padding: 7px 20px 12px;
+            z-index: 10;
+            font-weight: 400;
+            /* normal */
+            width: 50%;
+            max-width: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+
+
+
+
+        /* Estados para iframes */
+        .map-container.loading {
+            position: relative;
+        }
+
+
+        .map-container.loaded {
+            opacity: 1;
+        }
+
+        @keyframes mapPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .map-container iframe {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .map-container.loaded iframe {
+            opacity: 1;
+        }
+
+        .map-container.loading::before,
+        .map-container.loading::after {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .map-container.loaded::before,
+        .map-container.loaded::after {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            .nosotros-content,
+            .pan-dulce-content,
+            .contacto-content {
+                grid-template-columns: 1fr;
+            }
+
+            .favoritos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .favorito-item {
+                grid-template-columns: 1fr;
+            }
+
+            .opiniones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-content a {
+                font-size: 1.8rem;
+            }
+
+            .nosotros h2,
+            .pan-dulce-text h2,
+            .favoritos h2,
+            .opiniones h2,
+            .contacto h2 {
+                font-size: 2.5rem;
+            }
+
+            .contact-toggle,
+            .contact-btn {
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
+
+            .contact-icon-main,
+            .contact-btn-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <!-- SEO de Imagenes JSON-LD -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            "name": "Casa Valentina",
+            "description": "Un jardín en el centro de la ciudad donde la naturaleza, la cocina y la tradición se encuentran. Jardín & Cocina con platillos tradicionales mexicanos.",
+            "url": "https://casavalentina.com.mx",
+            "logo": "https://casavalentina.com.mx/wp-content/uploads/2025/12/Artboard-1-copy-4.png",
+            "image": [
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Artboard-1-copy-4.png",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Chef-Pablo.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Concha.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Tesoro-de-Oaxaca.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Chisme-de-Tendedero.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Pan-Frances.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Las-de-MH.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Virreynal.webp",
+                "https://casavalentina.com.mx/wp-content/uploads/2025/12/Chilaquiles-D.webp"
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Calle 12 de Octubre Esq. Melchor Ocampo",
+                "addressLocality": "Cabo San Lucas",
+                "addressRegion": "BCS",
+                "postalCode": "23468",
+                "addressCountry": "MX"
+            },
+            "telephone": "+52 624 172 6241",
+            "email": "info@casavalentina.com.mx",
+            "openingHours": [
+                "Tu-Su 08:00-13:30",
+                "Tu-Su 18:30-22:00"
+            ],
+            "servesCuisine": "Mexican",
+            "priceRange": "$$",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5",
+                "reviewCount": "4"
+            },
+            "sameAs": [
+                "https://www.instagram.com/restaurantecasavalentina",
+                "https://www.facebook.com/restaurantecasavalentina"
+            ]
+        }
+    </script>
+    <!-- ICONS -->
+    <svg id="svg-symbols" style="display:none;" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <symbol id="icon-phone" width="30px" height="30px" viewBox="0,0,256,256">
+            <g fill="currentColor" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                style="mix-blend-mode: normal">
+                <g transform="scale(8.53333,8.53333)">
+                    <path
+                        d="M21.225,17.889c-0.406,-0.238 -0.905,-0.233 -1.309,0.007l-2.046,1.219c-0.458,0.273 -1.03,0.241 -1.45,-0.087c-0.726,-0.567 -1.895,-1.521 -2.912,-2.538c-1.017,-1.017 -1.971,-2.186 -2.538,-2.912c-0.328,-0.42 -0.36,-0.992 -0.087,-1.45l1.219,-2.046c0.241,-0.404 0.243,-0.907 0.005,-1.313l-3.002,-5.128c-0.291,-0.496 -0.869,-0.74 -1.428,-0.603c-0.543,0.132 -1.248,0.454 -1.987,1.194c-2.314,2.314 -3.543,6.217 5.159,14.919c8.702,8.702 12.604,7.474 14.919,5.159c0.741,-0.741 1.062,-1.447 1.195,-1.991c0.135,-0.558 -0.105,-1.132 -0.6,-1.422c-1.236,-0.723 -3.902,-2.284 -5.138,-3.008z">
+                    </path>
+                </g>
+            </g>
+        </symbol>
+        <symbol id="icon-smartphone" width="30px" height="30px" viewBox="0,0,256,256">
+            <g fill="currentColor" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                style="mix-blend-mode: normal">
+                <g transform="scale(8.53333,8.53333)">
+                    <path
+                        d="M21,2h-12c-1.105,0 -2,0.895 -2,2v22c0,1.105 0.895,2 2,2h12c1.105,0 2,-0.895 2,-2v-22c0,-1.105 -0.895,-2 -2,-2zM17,6c-0.186,0 -3.814,0 -4,0c-0.552,0 -1,-0.448 -1,-1c0,-0.552 0.448,-1 1,-1c0.186,0 3.814,0 4,0c0.552,0 1,0.448 1,1c0,0.552 -0.448,1 -1,1z">
+                    </path>
+                </g>
+            </g>
+        </symbol>
+        <symbol id="whatsapp" viewBox="0 0 640 640" fill="currentColor">
+            <path
+                d="M476.9 161.1C435 119.1 379.2 96 319.9 96C197.5 96 97.9 195.6 97.9 318C97.9 357.1 108.1 395.3 127.5 429L96 544L213.7 513.1C246.1 530.8 282.6 540.1 319.8 540.1L319.9 540.1C442.2 540.1 544 440.5 544 318.1C544 258.8 518.8 203.1 476.9 161.1zM319.9 502.7C286.7 502.7 254.2 493.8 225.9 477L219.2 473L149.4 491.3L168 423.2L163.6 416.2C145.1 386.8 135.4 352.9 135.4 318C135.4 216.3 218.2 133.5 320 133.5C369.3 133.5 415.6 152.7 450.4 187.6C485.2 222.5 506.6 268.8 506.5 318.1C506.5 419.9 421.6 502.7 319.9 502.7zM421.1 364.5C415.6 361.7 388.3 348.3 383.2 346.5C378.1 344.6 374.4 343.7 370.7 349.3C367 354.9 356.4 367.3 353.1 371.1C349.9 374.8 346.6 375.3 341.1 372.5C308.5 356.2 287.1 343.4 265.6 306.5C259.9 296.7 271.3 297.4 281.9 276.2C283.7 272.5 282.8 269.3 281.4 266.5C280 263.7 268.9 236.4 264.3 225.3C259.8 214.5 255.2 216 251.8 215.8C248.6 215.6 244.9 215.6 241.2 215.6C237.5 215.6 231.5 217 226.4 222.5C221.3 228.1 207 241.5 207 268.8C207 296.1 226.9 322.5 229.6 326.2C232.4 329.9 268.7 385.9 324.4 410C359.6 425.2 373.4 426.5 391 423.9C401.7 422.3 423.8 410.5 428.4 397.5C433 384.5 433 373.4 431.6 371.1C430.3 368.6 426.6 367.2 421.1 364.5z" />
+        </symbol>
+        <symbol id="mail" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+        </symbol>
+        <symbol id="instagram-icon" viewBox="0 0 24 24">
+            <path fill="currentColor"
+                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3z">
+            </path>
+        </symbol>
+        <symbol id="facebook-icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+            <path d="
+            M15,3C8.373,3,3,8.373,3,15c0,6.016,4.432,10.984,10.206,11.852V18.18h-2.969v-3.154h2.969v-2.099c0-3.475,1.693-5,4.581-5
+            c1.383,0,2.115,0.103,2.461,0.149v2.753h-1.97c-1.226,0-1.654,1.163-1.654,2.473v1.724h3.593L19.73,18.18h-3.106v8.697
+            C22.481,26.083,27,21.075,27,15C27,8.373,21.627,3,15,3z" />
+        </symbol>
+    </svg>
+</head>
+
+<body>
+    <!-- Registro oculto de imágenes para SEO y carga dinámica -->
+    <div id="seo-imgs" style="display:none;">
+
+        <!-- Chef Pablo -->
+        <img data-id="img-chef" data-section="nosotros" data-target=".nosotros-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chef-Pablo.webp" data-alt="Chef Pablo López"
+            data-animation="zoom" loading="lazy" />
+
+        <!-- Pan Dulce -->
+        <img data-id="img-pan-dulce" data-section="pan-dulce" data-target=".pan-dulce-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Concha.webp" data-alt="Pan Dulce"
+            data-animation="fade-in" loading="lazy" />
+
+        <!-- Tesoro de Oaxaca -->
+        <img data-id="img-tesoro" data-section="favoritos" data-target=".favorito-item.tesoro-de-oaxaca .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Tesoro-de-Oaxaca.webp"
+            data-alt="Tesoro de Oaxaca" data-animation="slide-up" loading="lazy" />
+
+        <!-- Chisme de Tendedero -->
+        <img data-id="img-chisme" data-section="favoritos" data-target=".favorito-item.chisme-tendedero .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chisme-de-Tendedero.webp"
+            data-alt="Chisme de Tendedero" data-animation="slide-up" loading="lazy" />
+
+        <!-- Pan Francés -->
+        <img data-id="img-pan-frances" data-section="favoritos" data-target=".favorito-item.pan-frances .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Pan-Frances.webp" data-alt="Pan Francés"
+            data-animation="slide-up" loading="lazy" />
+
+        <!-- Las de Miguel Hidalgo -->
+        <img data-id="img-miguel-hidalgo" data-section="favoritos"
+            data-target=".favorito-item:nth-child(4) .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Las-de-MH.webp"
+            data-alt="Las de Miguel Hidalgo" data-animation="slide-up" loading="lazy" />
+
+        <!-- Virreynal -->
+        <img data-id="img-virreynal" data-section="favoritos" data-target=".favorito-item.virreynal .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Virreynal.webp" data-alt="Virreynal"
+            data-animation="slide-up" loading="lazy" />
+
+        <!-- Chilaquiles Divorciados -->
+        <img data-id="img-chilaquiles" data-section="favoritos"
+            data-target=".favorito-item.chilaquiles-divorciados .favorito-image"
+            src="https://casavalentina.com.mx/wp-content/uploads/2025/12/Chilaquiles-D.webp"
+            data-alt="Chilaquiles Divorciados" data-animation="slide-up" loading="lazy" />
+    </div>
+
+    <!-- Hamburger Menu Button -->
+    <div class="menu-btn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Full Screen Menu -->
+    <div class="fullscreen-menu" id="fullscreenMenu">
+        <div class="menu-content">
+            <a href="https://casavalentina.com.mx/menu-app/" target="_blank">MENÚ</a>
+            <a href="#contacto">CONTACTO</a>
+            <a href="https://casavalentina.com.mx/facturacion/" target="_blank">FACTURACIÓN</a>
+        </div>
+    </div>
+
+    <!-- Contact Sidebar -->
+    <div class="contact-sidebar">
+        <div class="contact-toggle" onclick="toggleContact()">
+            <span>Contáctanos</span>
+            <div class="contact-icon-main">
+                <svg viewBox="0 0 30 30" style="transform: scale(0.7);">
+                    <use href="#icon-phone"></use>
+                </svg>
+            </div>
+        </div>
+        <div class="contact-options" id="contactOptions">
+            <a href="tel:6241726241" class="contact-btn">
+                <span>Llamadas</span>
+                <div class="contact-btn-icon">
+                    <svg viewBox="0 0 30 30" style="transform: scale(0.6);">
+                        <use href="#icon-smartphone"></use>
+                    </svg>
+                </div>
+            </a>
+            <a href="https://wa.me/5216241726241" target="_blank" class="contact-btn">
+                <span>Whatsapp</span>
+                <div class="contact-btn-icon">
+                    <svg viewBox="0 0 30 30" style="transform: scale(0.7);">
+                        <use href="#whatsapp"></use>
+                    </svg>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <img src="https://casavalentina.com.mx/wp-content/uploads/2026/01/casa-valentina-logo-white.png"
+                alt="Casa Valentina Logo" fetchpriority="high" class="logo" width="150" height="130">
+
+            <h1>TU RINCÓN VERDE</h1>
+            <p>en el corazón de Cabo...</p>
+            <a href="https://casavalentina.com.mx/menu-app/" target="_blank" class="cta-btn">Ver Menú</a>
+        </div>
+    </section>
+
+    <!-- Nosotros Section -->
+    <section class="nosotros">
+        <div class="nosotros-content">
+            <div>
+                <h2>NOSOTROS</h2>
+                <p class="nosotros-text">
+                    Un jardín en el centro de la ciudad en donde la naturaleza, la
+                    cocina y la tradición se encuentran, dentro de una atmósfera alegre,
+                    acogedora y llena de sabor. En cada platillo nuestro Chef Pablo
+                    López, refleja el amor y respeto a nuestras raíces, despertando
+                    emociones y esa sensación cálida de estar en casa.
+                </p>
+            </div>
+
+            <div class="nosotros-image skeleton skeleton-image" data-skeleton="img-nosotros-image"
+                data-alt="Chef Pablo López"></div>
+
+        </div>
+    </section>
+
+    <!-- Pan Dulce Section -->
+    <section class="pan-dulce">
+        <div class="pan-dulce-content">
+            <div class="pan-dulce-image skeleton skeleton-image" data-skeleton="img-pan-dulce-image"
+                data-alt="Pan Dulce"></div>
+            <div class="pan-dulce-text">
+                <h2>PAN<br />DULCE</h2>
+                <p>horneado diariamente con amor<br />y sabor casero.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Los Favoritos Section -->
+    <section class="favoritos">
+        <h2>LOS FAVORITOS</h2>
+        <div class="favoritos-grid">
+            <div class="favorito-item tesoro-de-oaxaca">
+                <div data-alt="Tesoro de Oaxaca" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+
+                <div class="favorito-text ">
+                    <h3>Tesoro de<br />Oaxaca</h3>
+                    <p>
+                        Crujiente y llena de sabor, con frijoles, mezcla de quesos,
+                        chorizo y top sirloin a la parrilla. Terminada con rábano,
+                        aguacate y cebolla morada curtida en habanero. Un clásico
+                        irresistible.
+                    </p>
+                </div>
+            </div>
+
+            <div class="favorito-item chisme-tendedero">
+                <div data-alt="Chisme de Tendedero" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+                <div class="favorito-text">
+                    <h3>Chisme de<br />Tendedero</h3>
+                    <p>
+                        Cuatro quesadillas al comal con adobo, servidas en un mini
+                        tendedero que encanta a todos. Un favorito por su sabor y su
+                        presentación única.
+                    </p>
+                </div>
+            </div>
+
+            <div class="favorito-item pan-frances">
+                <div data-alt="Pan Francés" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+                <div class="favorito-text">
+                    <h3>Pan francés</h3>
+                    <p>
+                        Un clásico dulce que todos regresan a pedir. Casero con manzana y
+                        pera caramelizada, coronado con nuez y arándanos. Se acompaña con
+                        mermelada de higo.
+                    </p>
+                </div>
+            </div>
+
+            <div class="favorito-item miguel-hidalgo">
+                <div data-alt="Las de Miguel Hidalgo" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+                <div class="favorito-text">
+                    <h3>Las de Miguel<br />Hidalgo</h3>
+                    <p>
+                        Nuestras enchiladas más queridas: tortillas rellenas de pollo o
+                        mezcla de quesos en salsa verde, gratinadas y servidas con crema,
+                        lechuga, rábanos y arroz. Sabor casero que encanta.
+                    </p>
+                </div>
+            </div>
+
+            <div class="favorito-item virreynal">
+                <div data-alt="Virreynal" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+                <div class="favorito-text">
+                    <h3>Virreynal</h3>
+                    <p>
+                        Milanesa de pollo servida con un huarache y una quesadilla de
+                        chicharrón prensado al estilo Casa Valentina. Incluye frijoles de
+                        la olla y guacamole para completar un antojo bien logrado.
+                    </p>
+                </div>
+            </div>
+
+            <div class="favorito-item chilaquiles-divorciados">
+                <div data-alt="Chilaquiles Divorciados" data-skeleton="img-favorito-image"
+                    class="favorito-image skeleton skeleton-image">
+                </div>
+                <div class="favorito-text">
+                    <h3>Chilaquiles<br />Divorciados</h3>
+                    <p>
+                        Mitad verdes, mitad rojos, servidos con chamorro estilo carnitas y
+                        cochinita pibil. Lleva crema, queso y cebolla curtida con
+                        habanero, acompañados de frijoles de la olla para equilibrar cada
+                        bocado.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="favoritos-cta">
+            <a href="https://casavalentina.com.mx/menu-app/" target="_blank" class="cta-btn">Ver Menú</a>
+        </div>
+    </section>
+
+    <!-- Opiniones Section -->
+    <section class="opiniones">
+        <h2>OPINIONES</h2>
+        <div class="opiniones-grid">
+            <div class="opinion-item">
+                <div class="stars">★★★★★</div>
+                <h3>Molly C.</h3>
+                <p>
+                    La comida es muy buena el pan es una experiencia deliciosa, todo el
+                    lugar es muy acogedor y ahora hay área con aire acondicionado.
+                </p>
+            </div>
+
+            <div class="opinion-item">
+                <div class="stars">★★★★★</div>
+                <h3>Julianne P.</h3>
+                <p>
+                    A perfect experience from start to finish! The service was
+                    exceptional and the food was beautiful and delectable! The fresh
+                    squeezed pineapple juice was incredible!!
+                </p>
+            </div>
+
+            <div class="opinion-item">
+                <div class="stars">★★★★★</div>
+                <h3>Gissel O.</h3>
+                <p>
+                    Excelente servicio, nos hicieron una salsa en la mesa, comida muy
+                    rica, una gran opción para desayunar, comer o cenar...
+                </p>
+            </div>
+
+            <div class="opinion-item">
+                <div class="stars">★★★★★</div>
+                <h3>Julio C.</h3>
+                <p>
+                    Comida deliciosa, personal amable, ambiente excelente y trato
+                    excepcional. Muchas gracias a los cocineros, la comida es deliciosa,
+                    y también gracias a Luis y Sarah, por el amable servicio. !Los
+                    refrescos de la familia están muy ricos y las salsas de molcajete ni
+                    se diga!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section class="contacto" id="contacto">
+        <h2>CONTACTO</h2>
+        <div class="contacto-content">
+            <div class="contacto-info">
+                <h3>Visítanos en:</h3>
+                <div class="contacto-details">
+                    <p>
+                        Calle 12 de Octubre Esq. Melchor Ocampo,<br />
+                        Col. Matamoros, Cp. 23468,<br />
+                        Cabo San Lucas, BCS.
+                    </p>
+                    <p>
+                        <svg viewBox="0 0 24 24"
+                            style="width: 1em; height: 1em; vertical-align: middle; margin-right: 5px;">
+                            <use href="#mail"></use>
+                        </svg>
+                        <a href="mailto:info@casavalentina.com.mx">info@casavalentina.com.mx</a>
+                    </p>
+                    <p>
+                        <svg viewBox="0 0 24 24"
+                            style="width: 1em; height: 1em; vertical-align: middle; margin-right: 5px;">
+                            <use href="#icon-phone"></use>
+                        </svg>
+                        <a href="tel:+52624172624108">624 172 624 108</a>
+                    </p>
+
+                    <p><svg viewBox="0 0 24 24"
+                            style="width: 1em; height: 1em; vertical-align: middle; margin-right: 5px;">
+                            <use href="#instagram-icon"></use>
+                        </svg> @restaurantecasavalentina</p>
+                    <p><svg viewBox="0 0 48 48"
+                            style="width: 1em; height: 1em; vertical-align: middle; margin-right: 5px;">
+                            <use href="#facebook-icon"></use>
+                        </svg> @restaurantecasavalentina</p>
+                </div>
+                <div class="horario">
+                    <h4>Horario:</h4>
+                    <p>
+                        Martes a Domingo<br />
+                        de 8am a 1.30 pm<br />
+                        y 6:30 pm a 10:00pm<br />
+                        (Lunes Cerrado)
+                    </p>
+                </div>
+                <a href="https://casavalentina.com.mx/facturacion/" target="_blank"
+                    class="facturacion-btn">Facturación</a>
+            </div>
+            <div class="map-container">
+                <iframe title="Mapa de ubicación de Casa Valentina" width="100%" height="400" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.596183827866!2d-109.91925912415256!3d22.89137102121059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86af4b078778bbbd%3A0x6059a59543566866!2sCasa%20Valentina!5e0!3m2!1sen!2smx!4v1765929649467!5m2!1sen!2smx">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("fullscreenMenu");
+            const btn = document.querySelector(".menu-btn");
+            menu.classList.toggle("active");
+            btn.classList.toggle("active");
+        }
+
+        function toggleContact() {
+            const options = document.getElementById("contactOptions");
+            options.classList.toggle("active");
+        }
+
+        // Cerrar el menú de contacto al hacer clic fuera de él
+        document.addEventListener("click", function (event) {
+            const contactSidebar = document.querySelector(".contact-sidebar");
+            const contactOptions = document.getElementById("contactOptions");
+
+            // Verificar si el clic ocurrió fuera del menú de contacto y si el menú está abierto
+            if (!contactSidebar.contains(event.target) && contactOptions.classList.contains("active")) {
+                contactOptions.classList.remove("active");
+            }
+        });
+
+        // Cerrar el menú de contacto al presionar la tecla Escape
+        document.addEventListener("keydown", function (event) {
+            const contactOptions = document.getElementById("contactOptions");
+
+            if (event.key === "Escape" && contactOptions.classList.contains("active")) {
+                contactOptions.classList.remove("active");
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute("href"));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                    });
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // state.js
+        const state = {
+            images: {
+                loading: new Set(),    // IDs en proceso de carga
+                loaded: new Set(),     // IDs ya cargados
+                errors: new Set(),     // IDs con error
+                hydrated: new Set(),   // IDs que reemplazaron skeleton
+            },
+            sections: {
+                // Se poblará dinámicamente
+            }
+        };
+
+        // dom.js
+        const DOM = {
+            seoImgs: document.querySelector('#seo-imgs'),
+            images: null,      // Todas las img[data-id]
+            skeletons: null,   // Todos los [data-skeleton]
+        };
+
+        function initDOMMapping() {
+            // Mapear imágenes SEO
+            DOM.images = Array.from(
+                DOM.seoImgs.querySelectorAll('[data-id]')
+            ).reduce((map, img) => {
+                map[img.dataset.id] = img;
+                return map;
+            }, {});
+
+            // Mapear skeletons
+            DOM.skeletons = Array.from(
+                document.querySelectorAll('[data-skeleton]')
+            ).reduce((map, skeleton) => {
+                map[skeleton.dataset.skeleton] = skeleton;
+                return map;
+            }, {});
+        }
+
+
+
+        /*============
+           CONFIGS
+        ============*/
+
+        // config.js
+        const config = {
+            images: {
+                animations: {
+                    'fade-in': 'animate-fade-in',
+                    'zoom': 'animate-zoom',
+                    'slide-up': 'animate-slide-up',
+                },
+
+                // Clases de skeleton
+                skeletonClass: 'skeleton',
+                skeletonImageClass: 'skeleton-image',
+
+                // Duración mínima del skeleton (para UX)
+                minSkeletonDuration: 300,
+
+                // Opciones de observer
+                observerOptions: {
+                    root: null,
+                    rootMargin: '100px',
+                    threshold: 0.01,
+                }
+            }
+        };
+
+        // actions.js
+
+        function startImageLoading(imageId) {
+            state.images.loading.add(imageId);
+        }
+
+        function markImageAsLoaded(imageId) {
+            state.images.loading.delete(imageId);
+            state.images.loaded.add(imageId);
+            renderImageLoaded(imageId);
+        }
+
+        function markImageAsError(imageId) {
+            state.images.loading.delete(imageId);
+            state.images.errors.add(imageId);
+            renderImageError(imageId);
+        }
+
+        function markImageAsHydrated(imageId) {
+            state.images.hydrated.add(imageId);
+        }
+
+        /*============
+            RENDER
+        ============*/
+
+        // render.js
+
+        function renderImageLoaded(imageId) {
+            const imgData = DOM.images[imageId];
+            if (!imgData) return;
+
+            const target = document.querySelector(imgData.dataset.target);
+            if (!target) return;
+
+            // Remover skeleton
+            target.classList.remove(config.images.skeletonClass);
+            target.classList.remove(config.images.skeletonImageClass);
+
+            // Agregar clase loaded
+            target.classList.add('loaded');
+        }
+
+        function renderImageError(imageId) {
+            const imgData = DOM.images[imageId];
+            if (!imgData) return;
+
+            const target = document.querySelector(imgData.dataset.target);
+            if (!target) return;
+
+            target.classList.remove(config.images.skeletonClass);
+            target.classList.add('error');
+        }
+
+        function hydrateImage(imageId) {
+            const imgData = DOM.images[imageId];
+            if (!imgData) {
+                console.warn(`Imagen no encontrada: ${imageId}`);
+                return;
+            }
+
+            // Validar que tenga data-target
+            const targetSelector = imgData.dataset.target;
+            if (!targetSelector) {
+                console.warn(`Imagen ${imageId} no tiene data-target`);
+                return;
+            }
+
+            // Validar que el target exista
+            const target = document.querySelector(targetSelector);
+            if (!target) {
+                console.warn(`Target no encontrado para ${imageId}: ${targetSelector}`);
+                return;
+            }
+
+            // Registrar inicio de carga
+            startImageLoading(imageId);
+
+            // Obtener la clase del target (primera clase)
+            const targetClass = target.classList[0];
+
+            // Crear elemento <img>
+            const img = document.createElement('img');
+            img.src = imgData.dataset.src || imgData.src;
+            img.alt = imgData.dataset.alt || target.dataset.alt || '';
+            img.loading = 'lazy';
+            // Agregar la clase del target
+            img.classList.add(targetClass);
+
+            // Aplicar animación si existe
+            const animation = imgData.dataset.animation;
+            if (animation && config.images.animations[animation]) {
+                img.classList.add(config.images.animations[animation]);
+
+            }
+
+            // Eventos de carga
+            img.onload = () => {
+                // Esperar duración mínima del skeleton
+                setTimeout(() => {
+                    markImageAsLoaded(imageId);
+                    markImageAsHydrated(imageId);
+                }, config.images.minSkeletonDuration);
+            };
+
+            img.onerror = () => {
+                markImageAsError(imageId);
+            };
+
+            // Reemplazar contenido del target
+            target.innerHTML = '';
+            target.appendChild(img);
+        }
+
+
+        /*============
+            HYDRATE
+        ============*/
+
+
+        // hydrate.js
+
+        function hydrateAllImages() {
+            const imageIds = Object.keys(DOM.images);
+
+            imageIds.forEach(imageId => {
+                hydrateImage(imageId);
+            });
+        }
+
+        function hydrateVisibleImages() {
+            const observer = new IntersectionObserver(
+                handleImageIntersection,
+                config.images.observerOptions
+            );
+
+            // Observar todos los targets que tienen skeleton
+            Object.entries(DOM.images).forEach(([imageId, imgData]) => {
+                const target = document.querySelector(imgData.dataset.target);
+                if (target && target.classList.contains(config.images.skeletonClass)) {
+                    observer.observe(target);
+                }
+            });
+        }
+
+        function handleImageIntersection(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Buscar qué imagen corresponde a este target
+                    const target = entry.target;
+                    const imageId = findImageIdByTarget(target);
+
+                    if (imageId && !state.images.hydrated.has(imageId)) {
+                        hydrateImage(imageId);
+                        observer.unobserve(target);
+                    }
+                }
+            });
+        }
+
+        function findImageIdByTarget(targetElement) {
+            // Buscar en el mapeo de imágenes cuál apunta a este target
+            for (const [imageId, imgData] of Object.entries(DOM.images)) {
+                const target = document.querySelector(imgData.dataset.target);
+                if (target === targetElement) {
+                    return imageId;
+                }
+            }
+            return null;
+        }
+
+        /*============
+        HYDRATE FLEXIBLE
+        ============*/
+
+        // strategies.js
+
+        // Estrategia 1: Hidratar todo inmediatamente
+        function hydrateStrategy_Immediate() {
+            hydrateAllImages();
+        }
+
+        // Estrategia 2: Hidratar solo lo visible (lazy)
+        function hydrateStrategy_Lazy() {
+            hydrateVisibleImages();
+        }
+
+        // Estrategia 3: Hero primero, resto lazy
+        function hydrateStrategy_HeroFirst() {
+            // Hero inmediato
+            hydrateImage('img-logo');
+
+            // Resto lazy después de un delay
+            setTimeout(() => {
+                //hydrateVisibleImages();
+            }, 500);
+        }
+
+        // Estrategia 4: Por secciones
+        function hydrateStrategy_BySections() {
+            const sections = {
+                hero: ['img-logo'],
+                nosotros: ['img-chef'],
+                'pan-dulce': ['img-pan-dulce'],
+                favoritos: [
+                    'img-tesoro',
+                    'img-chisme',
+                    'img-pan-frances',
+                    'img-miguel-hidalgo',
+                    'img-virreynal',
+                    'img-chilaquiles'
+                ]
+            };
+
+            // Hero inmediato
+            sections.hero.forEach(hydrateImage);
+
+            // Resto con observer
+            hydrateVisibleImages();
+        }
+
+
+        /*============
+            INIT
+        ============*/
+        // init.js
+
+        function initImageSystem() {
+            // 1. Mapear DOM
+            initDOMMapping();
+
+            // 2. Elegir estrategia de hydrate
+            hydrateVisibleImages(); // ← Cambiar según necesidad
+
+            // 3. Log de confirmación
+            console.log('✓ Hydrate System iniciado', {
+                imágenes: Object.keys(DOM.images).length,
+                skeletons: Object.keys(DOM.skeletons).length,
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initImageSystem);
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const iframes = document.querySelectorAll("iframe[data-src]");
+            const map_background = document.querySelector('.map-background');
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const iframe = entry.target;
+                        const mapContainer = iframe.closest('.map-container');
+
+                        // Agregar clase loading
+                        mapContainer.classList.add('loading');
+
+                        iframe.src = iframe.dataset.src;
+                        iframe.removeAttribute("data-src");
+
+                        // Escuchar el evento load del iframe
+                        iframe.onload = () => {
+                            mapContainer.classList.remove('loading');
+                            mapContainer.classList.add('loaded');
+                        };
+
+                        obs.unobserve(iframe);
+                    }
+                });
+            }, {
+                rootMargin: "200px" // precarga un poco antes
+            });
+
+            iframes.forEach(iframe => observer.observe(iframe));
+        });
+
+    </script>
+</body>
+
+</html>

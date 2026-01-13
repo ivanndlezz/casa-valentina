@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // ======================
+        // 1. MAPA DE COLUMNAS
+        // ======================
+        const SHEET_MAP = {
+            section: 0,
+            category: 1,
+            name: 2,
+            description: 3,
+            price: 4,
+            meta1: 5,
+            meta2: 6,
+            meta3: 7
+        }
+
+        // ======================
+        // 2. REGLAS
+        // ======================
+        const RULES = {
+            isNewSection: row => row[SHEET_MAP.section]?.trim(),
+            isNewCategory: row => row[SHEET_MAP.category]?.trim(),
+            isItem: row => row[SHEET_MAP.name]?.trim(),
+            isImage: val => typeof val === "string" && val.includes("http"),
+            isSpecialFlag: val => val === "E"
+        }
+
+        // ======================
+        // 3. TRANSFORMADOR
+        // ======================
+        function buildMenuModel(rows) {
+
+            const menu = { sections: [] }
+
+            let currentSection = null
+            let currentCategory = null
+
+            for (const row of rows) {
+
+                // Sección
+                if (RULES.isNewSection(row)) {
+                    currentSection = {
+                        title: row[SHEET_MAP.section].trim(),
+                        categories: []
+                    }
+                    menu.sections.push(currentSection)
+                    currentCategory = null
+                }
+
+                // Categoría
+                if (RULES.isNewCategory(row)) {
+                    currentCategory = {
+                        name: row[SHEET_MAP.category].trim(),
+                        items: []
+                    }
+                    currentSection.categories.push(currentCategory)
+                }
+
+                // Platillo
+                if (RULES.isItem(row)) {
+
+                    const images = []
+                    const notes = []
+
+                    const metaCols = [
+                        row[SHEET_MAP.meta1],
+                        row[SHEET_MAP.meta2],
+                        row[SHEET_MAP.meta3]
+                    ]
+
+                    metaCols.forEach(val => {
+                        if (RULES.isImage(val)) images.push(val)
+                        else if (val && !RULES.isSpecialFlag(val)) notes.push(val)
+                    })
+
+                    const item = {
+                        name: row[SHEET_MAP.name].trim(),
+                        description: row[SHEET_MAP.description]?.trim() || "",
+                        price: row[SHEET_MAP.price] ? Number(row[SHEET_MAP.price]) : null,
+                        notes,
+                        images,
+                        flags: {
+                            special: RULES.isSpecialFlag(row[SHEET_MAP.meta1])
+                        }
+                    }
+
+                    currentCategory.items.push(item)
+                }
+            }
+
+            return menu
+        }
+
+        // ======================
+        // 4. FILAS DE PRUEBA
+        // (Simula Google Sheets)
+        // ======================
+        const demoRows = [
+            ["DESAYUNOS"],
+            ["", "Especialidad del chef"],
+            ["", "", "Huevos Casa Valentina", "Huevos al gusto con salsa", "180", "E", "", ""],
+            ["", "", "Chilaquiles", "Verdes o rojos", "160", "", "", ""],
+            ["BEBIDAS"],
+            ["", "Jugos"],
+            ["", "", "Jugo de naranja", "Natural", "60", "", "", ""],
+            ["", "", "Café", "Americano", "50", "http://imagen-cafe.jpg", "", ""]
+        ]
+
+        // ======================
+        // 5. CONSOLE LOG FINAL
+        // ======================
+        const menuJSON = buildMenuModel(demoRows)
+
+
+        console.log('🍽️ JSON FINAL DEL MENÚ:', JSON.stringify(menuJSON, null, 2));
+
+        // Si lo quieres bonito:
+        console.log("🍽️ JSON FORMATEADO:");
+        console.log(JSON.stringify(menuJSON, null, 2));
+
+        const SHEET_ID = "11kdR4uRpOzgeag7YU6gJFfEwywcojb3HKfyhcnJerJ0"
+        const API_KEY = "AIzaSyCByA7B2iScpsJ4ao5_u3oGcI2zgsV_UXw"
+
+        async function getSheetData(tabName) {
+
+            const range = `${tabName}!A2:AZ900`
+
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`
+
+            console.log("🔗 Fetching:", url)
+
+            const response = await fetch(url)
+            const data = await response.json()
+
+            console.log("📄 Datos crudos de Google Sheets:")
+            console.log(data.values)
+
+            return data.values
+        }
+
+    </script>
+
+
+</body>
+
+</html>

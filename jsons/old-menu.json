@@ -1,0 +1,254 @@
+[
+  {
+    "SECCIÓN": "ENTRADAS",
+    "SUBCATEGORÍA": "Nuestros precios incluyen IVA",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Guacamole",
+    "DESCRIPCIÓN": "Hecho al momento (aguacate, jitomate, cebolla y cilantro). Acompañado con chicharrón de costra y un pequeño toque de queso cotija",
+    "PRECIO": 150
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Queso Fundido",
+    "DESCRIPCIÓN": "Selección de quesos fundidos a la parrilla. Un ingrediente a elegir: *Chorizo *Chicharrón prensado *Hongos *Rajas poblanas. Acompañados con tortillas de maíz o harina.",
+    "PRECIO": 190
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Alitas Casa Valentina",
+    "DESCRIPCIÓN": "Alitas de pollo marinadas. (400 g) Elige tu salsa favorita: Búfalo / BBQ",
+    "PRECIO": 190
+  },
+  {
+    "SECCIÓN": "SOPAS",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Tradicional de Tortilla",
+    "DESCRIPCIÓN": "Sopa tradicional de tortilla con guarnición de aguacate, chile pasilla y nuestra famosa mezcla de quesos regionales. Acompañada con chicharrón de costra.",
+    "PRECIO": 160
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Crema de Cilantro",
+    "DESCRIPCIÓN": "Cremosa sopa de cilantro, servida en nuestro pan rústico de hierbas. ¡ Una Delicia !",
+    "PRECIO": 160
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Crema de Tomate",
+    "DESCRIPCIÓN": "Cremosa sopa de jitomate y albahaca, servida en nuestro pan rústico de hierbas. ¡ Esta sopa es única !",
+    "PRECIO": 160
+  },
+  {
+    "SECCIÓN": "COCINA MEXICANA",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "El Chisme de Tendedero",
+    "DESCRIPCIÓN": "4 quesadillas de queso en tortilla de maíz con adobo de chiles y manteca al comal rellenas de: *Chicharrón prensado *Hongos *Chorizo *Rajas poblanas (2 ingredientes a elegir) Pieza extra $65",
+    "PRECIO": 235
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Tesoro de Oaxaca",
+    "DESCRIPCIÓN": "Tlayuda con frijoles, mezcla de quesos, chorizo y top sirloin a la parrilla. Adornada con rábano, aguacate y cebolla morada curtida en habanero.",
+    "PRECIO": 285
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Las de Miguel Hidalgo",
+    "DESCRIPCIÓN": "Enchiladas rellenas de pollo o mezcla de quesos, bañadas en salsa verde o roja con queso gratinado, crema, lechuga y rábanos. Acompañadas con arroz",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Las de José María y Morelos",
+    "DESCRIPCIÓN": "Enchiladas rellenas de pollo o mezcla de quesos, bañadas en mole, crema ácida y ajonjolí. Adornadas con lechuga y rábano. Acompañadas con arroz",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Suizas",
+    "DESCRIPCIÓN": "Enchiladas rellenas de pollo o mezcla de quesos, bañadas en nuestra tradicional salsa Suiza, acompañadas con arroz casero, crema acida y cebolla en aros.",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Costillas BBQ",
+    "DESCRIPCIÓN": "600 g Costilla BBQ, acompañadas de papas a la francesa",
+    "PRECIO": 420
+  },
+  {
+    "SECCIÓN": "CUCINA ITALIANA",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "INSALATE",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Insalata Di Pera, Nettarina e Formaggio Di Capra",
+    "DESCRIPCIÓN": "Mezcla de lechugas con vinagreta de miel y jengibre, tiras de pechuga de pollo, nuez, pera, durazno y queso de cabra.",
+    "PRECIO": 219
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Insalata Di Pasta",
+    "DESCRIPCIÓN": "Fresca ensalada de pasta fusilli, tiras de pechuga de pollo, col morada, pimiento verde, zanahoria, jícama, granos de elote amarillo, cilantro fresco, cacahuate y exquisito aderezo de Casa Valentina.",
+    "PRECIO": 219
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Insalata DI Spinaci, Mela, Anguria e Fragola",
+    "DESCRIPCIÓN": "Fresca y original ensalada de espinacas, fresas, sandía, aguacate, cebolla morada y ajonjoli. Aderezada con nuestra exquisita vinagreta de miel con jengibre y decorada con laminas de manzana verde.",
+    "PRECIO": 195
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Agrega",
+    "DESCRIPCIÓN": "Pechuga de pollo 150g $ 75 / Top Sirloin 120g $ 100 / Camaron 100g $ 120",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "PASTA",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Spaghetti Alla Bolognese",
+    "DESCRIPCIÓN": "Tradicional pasta al dente, preparada con carne de res y exquisita salsa boloñesa ¡ Tradición y sabor único !",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Fettuccini Alfredo",
+    "DESCRIPCIÓN": "La combinación más italiana. Pasta en salsa Alfredo, tiras de pechuga de pollo a la parrilla y queso parmesano.",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Capellini Con Pollo Picatta",
+    "DESCRIPCIÓN": "Celestial cabello de ángel con pechuga de pollo capeada con parmesano, salteada y bañada en una delicada salsa de vino blanco, limón y alcaparras. Con champiñones y tomates frescos.",
+    "PRECIO": 245
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Fusilli Al Peperoncino",
+    "DESCRIPCIÓN": "Exquisita pasta al dente acomapañada con salsa de queso parmesano y chipotle ligeramente picante, tiras de pechuga de pollo a la parrilla, brócoli, zanahoria y queso de cabra.",
+    "PRECIO": 225
+  },
+  {
+    "SECCIÓN": "PIZZA",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Pepperoni",
+    "DESCRIPCIÓN": "Salsa de tomate a las finas hierbas, queso mozzarella, pepperoni y orégano espolvoreado",
+    "PRECIO": 255
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Hawaiana",
+    "DESCRIPCIÓN": "Salsa de tomate a las finas hierbas, queso mozzarella, jamón y piña.",
+    "PRECIO": 255
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Margarita",
+    "DESCRIPCIÓN": "Salsa de tomate a las finas hierbas, queso mozzarella, albahaca fresca y orégano espolvoreado",
+    "PRECIO": 255
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Quesos",
+    "DESCRIPCIÓN": "Salsa de tomate a las finas hierbas, nuestra mezcla de quesos y oregano espolvoreado.",
+    "PRECIO": 255
+  },
+  {
+    "SECCIÓN": "HAMBURGUESAS",
+    "SUBCATEGORÍA": "Todas nuestras hamburguesas vienen acompañadas de papas a la francesa / camote a la francesa. Elige tu favorito",
+    "NOMBRE DEL PLATILLO": "",
+    "DESCRIPCIÓN": "",
+    "PRECIO": ""
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Top Sirloin",
+    "DESCRIPCIÓN": "180 g de carne molida top sirloin asada a la parrilla, con queso manchego, ensalada especial, aderezo de la casa y rodajas de cebolla",
+    "PRECIO": 210
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Pollo a la Parrilla",
+    "DESCRIPCIÓN": "180 g de pechuga de pollo asada a la parrilla, queso manchego, ensalada especial, salsa BBQ y aros de cebolla",
+    "PRECIO": 195
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Camarón",
+    "DESCRIPCIÓN": "Camarón salteado 60g, gratinado con queso manchego y champiñones, ensalada especial, aderezo de la casa y aros de cebolla empanizados",
+    "PRECIO": 240
+  },
+  {
+    "SECCIÓN": "",
+    "SUBCATEGORÍA": "",
+    "NOMBRE DEL PLATILLO": "Orden extra",
+    "DESCRIPCIÓN": "Papas a la francesa con parmesano y cilantro 200g / Camote a la francesa 200g",
+    "PRECIO": 90
+  }
+]

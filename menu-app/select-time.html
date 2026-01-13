@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../fonts/bodoni/bodoni.css">
+    <title>Casa Valentina - Menú</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --am-color: #795548;
+            --am-accent: #FFB300;
+            /* Ámbar */
+            --pm-color: #333333;
+            --pm-accent: #3F51B5;
+            /* Azul */
+            --text-main: #222;
+            --text-muted: #888;
+            --border: #f0f0f0;
+
+            --accent-color: #2c4c13;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 4rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 50px;
+            opacity: 0.6;
+            color: var(--accent-color);
+        }
+
+        .options-wrapper {
+            display: flex;
+            gap: 30px;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .options-wrapper {
+                flex-direction: row;
+            }
+        }
+
+        .card {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            background-color: #ffffff8a;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            backdrop-filter: blur(50px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+
+        /* Pie Chart Reloj en la esquina */
+        .clock-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #eee;
+        }
+
+        .am-card .clock-indicator {
+            background: conic-gradient(var(--am-accent) 0deg 160deg, transparent 160deg 360deg);
+        }
+
+        .pm-card .clock-indicator {
+            background: conic-gradient(transparent 0deg 200deg, var(--pm-accent) 200deg 300deg, transparent 300deg 360deg);
+        }
+
+        .label-semantic {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .icon-meta {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        /* Estructura de Timeline a la izquierda */
+        .info-box {
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .timeline {
+            width: 4px;
+            border-radius: 4px;
+            position: relative;
+            background: #f0f0f0;
+        }
+
+        .am-card .timeline {
+            background: linear-gradient(to bottom, var(--am-accent), #ffe082);
+        }
+
+        .pm-card .timeline {
+            background: linear-gradient(to bottom, #7986cb, var(--pm-accent));
+        }
+
+        .time-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .time-row {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .time-row .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .time-row .val {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .am-card {
+            color: var(--am-color);
+        }
+
+        .pm-card {
+            color: var(--pm-color);
+        }
+
+        .days-header {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .closed-note {
+            margin-top: 35px;
+            font-size: 0.8rem;
+            color: #505050;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* CSS IDIOMA */
+        /* Variables y Estilos Base */
+        :root {
+            --color-principal: #556B2F;
+            /* Verde Oliva Oscuro (Dark Olive Green) */
+            --color-texto-activo: #1f2937;
+            /* Gris oscuro */
+            --color-texto-inactivo: #4a5568;
+            /* Gris medio */
+            --color-fondo: #f9fafb;
+            /* Fondo claro */
+            --color-borde: #d1d5db;
+            /* Gris claro para bordes */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--color-fondo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenedor de la tarjeta de demostración */
+        .card-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--color-borde);
+            padding: 32px;
+            max-width: 400px;
+            width: 100%;
+            /* Nueva propiedad para centrar el contenido (Pill) */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Centra el contenido horizontalmente */
+        }
+
+        /* Contenedor principal del selector (Simulación de un header o navbar) */
+        .selector-wrapper {
+            position: relative;
+            z-index: 100;
+            /* Eliminamos el margin fijo */
+            margin: 0;
+        }
+
+        /* --- Estilos de la Píldora Activa (SIN SOMBRA) --- */
+        .language-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #ffffff;
+            color: var(--color-texto-activo);
+            border: 1px solid var(--color-borde);
+            border-radius: 9999px;
+            /* Forma de píldora */
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .language-pill:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Iconos - AHORA EN ESCALA DE GRISES */
+        .world-icon,
+        .chevron-icon {
+            width: 20px;
+            height: 20px;
+            color: #6B7280;
+            /* Gris neutro */
+        }
+
+        .chevron-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .chevron-up {
+            transform: rotate(180deg);
+        }
+
+        /* --- Estilos del Menú Desplegable (SIN SOMBRA) --- */
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            /* Justo debajo de la píldora */
+            /* CAMBIO CLAVE: Alineación a la izquierda */
+            left: 0;
+            margin-top: 8px;
+            padding: 4px;
+            background-color: #ffffff;
+            border: 1px solid var(--color-borde);
+            border-radius: 8px;
+            list-style: none;
+            min-width: 150px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            /* Deshabilitado por defecto */
+        }
+
+        /* Para que el menú se alinee con la píldora, es bueno darle el mismo ancho */
+        .language-dropdown {
+            width: 100%;
+            box-sizing: border-box;
+            /* Incluir padding y borde en el ancho total */
+        }
+
+        .language-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            min-width: fit-content;
+        }
+
+        /* Ítems del menú */
+        .language-dropdown li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: var(--color-texto-activo);
+            font-weight: 500;
+            transition: background-color 0.15s;
+        }
+
+        .language-dropdown li:hover {
+            background-color: #f3f4f6;
+            color: var(--color-principal);
+            /* Usa el color oliva */
+        }
+
+        /* Banderas */
+        .flag-svg {
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Estilo para el título de la página */
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--color-texto-activo);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div
+            style="display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 20px;">
+            <h2 style="margin: 0;margin-bottom: 3rem; font-family: 'BodoniFLF', serif; ">Menú</h2>
+            <div class="selector-wrapper">
+                <!-- 1. PÍLDORA ACTIVA (Muestra el idioma seleccionado y el chevron) -->
+                <button id="active-language-btn" class="language-pill" data-active-lang="es">
+                    <!-- Icono de Mundo -->
+                    <svg class="world-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                    </svg>
+
+                    <!-- Placeholder Dinámico para la Bandera y el Texto -->
+                    <span id="active-flag-span">
+                        <!-- Bandera de México (ES-MX) -->
+                        <svg class="flag-svg" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="50" fill="#FFFFFF" />
+                            <rect width="33.33" height="50" fill="#006847" />
+                            <rect x="66.67" width="33.33" height="50" fill="#CE1126" />
+                            <!-- Placeholder central del escudo -->
+                            <circle cx="50" cy="25" r="5" fill="#4B0082" opacity="0.6" />
+                        </svg>
+                    </span>
+
+                    <span id="active-text">ES</span>
+
+                    <!-- Chevron Down -->
+                    <svg id="chevron" class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <!-- 2. MENÚ DESPLEGABLE -->
+                <ul id="lang-dropdown-menu" class="language-dropdown">
+
+                    <!-- Opción de Español (Activo/Oculto) -->
+                    <li id="dropdown-es" data-lang="es" class="hidden">
+                        <!-- Bandera de México (ES-MX) -->
+                        <svg class="flag-svg" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="50" fill="#FFFFFF" />
+                            <rect width="33.33" height="50" fill="#006847" />
+                            <rect x="66.67" width="33.33" height="50" fill="#CE1126" />
+                            <circle cx="50" cy="25" r="5" fill="#4B0082" opacity="0.6" />
+                        </svg>
+                        <span>ES</span> • <span> Español México</span>
+                    </li>
+
+                    <!-- Opción de Inglés (Inactivo/Visible) -->
+                    <li id="dropdown-en" data-lang="en">
+                        <!-- Bandera de Estados Unidos (EN) -->
+                        <svg class="flag-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="300" height="200" fill="#FFFFFF" />
+                            <rect width="120" height="100" fill="#000066" />
+                            <rect y="0" width="300" height="25" fill="#B22234" />
+                            <rect y="50" width="300" height="25" fill="#B22234" />
+                            <rect y="100" width="300" height="25" fill="#B22234" />
+                            <rect y="150" width="300" height="25" fill="#B22234" />
+                        </svg>
+                        <span>EN</span> • <span> English EEUU</span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="options-wrapper">
+
+            <article class="card am-card">
+                <div class="clock-indicator" title="Horario Mañana"></div>
+
+                <div class="label-semantic">
+                    <span class="material-symbols-rounded">light_mode</span>
+                    <span>Desayunos</span>
+                </div>
+
+                <svg class="icon-meta" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M2,21H20V19H2M20,8H18V5H20M20,3H4V13A4,4 0 0,0 8,17H14A4,4 0 0,0 18,13V10H20A2,2 0 0,0 22,8V5A2,2 0 0,0 20,3Z">
+                    </path>
+                </svg>
+
+                <div class="days-header">Martes a Domingo</div>
+
+                <div class="info-box">
+                    <div class="timeline"></div>
+                    <div class="time-details">
+                        <div class="time-row">
+                            <span class="label">Apertura</span>
+                            <span class="val">8:00 am</span>
+                        </div>
+                        <div style="height: 20px;"></div>
+                        <div class="time-row">
+                            <span class="label">Cierre</span>
+                            <span class="val">1:30 pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="closed-note">Lunes Cerrado</div>
+            </article>
+
+            <article class="card pm-card">
+                <div class="clock-indicator" title="Horario Noche"></div>
+
+                <div class="label-semantic">
+                    <span class="material-symbols-rounded">dark_mode</span>
+                    <span>Cenas</span>
+                </div>
+
+                <svg class="icon-meta" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M10,22H14V20H13V15.42C16.07,14.93 18.5,12.25 18.5,9V3H5.5V9C5.5,12.25 7.93,14.93 11,15.42V20H10V22M7.5,5H16.5V9C16.5,11.41 14.41,13.5 12,13.5C9.59,13.5 7.5,11.41 7.5,9V5Z">
+                    </path>
+                </svg>
+
+                <div class="days-header">Martes a Domingo</div>
+
+                <div class="info-box">
+                    <div class="timeline"></div>
+                    <div class="time-details">
+                        <div class="time-row">
+                            <span class="label">Apertura</span>
+                            <span class="val">6:30 pm</span>
+                        </div>
+                        <div style="height: 20px;"></div>
+                        <div class="time-row">
+                            <span class="label">Cierre</span>
+                            <span class="val">10:00 pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="closed-note">Lunes Cerrado</div>
+            </article>
+
+        </div>
+    </div>
+    <script>
+        const activeBtn = document.getElementById('active-language-btn');
+        const dropdownMenu = document.getElementById('lang-dropdown-menu');
+        const chevron = document.getElementById('chevron');
+        const activeTextSpan = document.getElementById('active-text');
+        const activeFlagSpan = document.getElementById('active-flag-span');
+        const dropdownItems = dropdownMenu.querySelectorAll('li');
+
+        const langData = {
+            'es': {
+                text: 'ES',
+                flagHtml: activeFlagSpan.innerHTML, // Usamos el HTML inicial de México
+            },
+            'en': {
+                text: 'EN',
+                // HTML de la bandera de EE.UU.
+                flagHtml: `
+                    <svg class="flag-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="300" height="200" fill="#FFFFFF"/>
+                        <rect width="120" height="100" fill="#000066"/>
+                        <rect y="0" width="300" height="25" fill="#B22234"/>
+                        <rect y="50" width="300" height="25" fill="#B22234"/>
+                        <rect y="100" width="300" height="25" fill="#B22234"/>
+                        <rect y="150" width="300" height="25" fill="#B22234"/>
+                    </svg>
+                `,
+            }
+        };
+
+        // Función para cambiar el idioma y actualizar la UI
+        function setLanguage(newLang) {
+            const currentLang = activeBtn.getAttribute('data-active-lang');
+            if (currentLang === newLang) return;
+
+            // 1. Actualizar la píldora activa
+            activeTextSpan.textContent = langData[newLang].text;
+            activeFlagSpan.innerHTML = langData[newLang].flagHtml;
+            activeBtn.setAttribute('data-active-lang', newLang);
+
+            // 2. Actualizar el menú desplegable: ocultar el idioma activo, mostrar el otro
+            dropdownItems.forEach(item => {
+                if (item.getAttribute('data-lang') === newLang) {
+                    item.classList.add('hidden');
+                } else {
+                    item.classList.remove('hidden');
+                }
+            });
+
+            console.log('Idioma cambiado a: ' + newLang.toUpperCase());
+            toggleDropdown(false); // Cerrar el menú
+        }
+
+        // Función para abrir/cerrar el menú desplegable
+        function toggleDropdown(show) {
+            const isShown = dropdownMenu.classList.contains('show');
+            const shouldShow = typeof show === 'boolean' ? show : !isShown;
+
+            if (shouldShow) {
+                dropdownMenu.classList.add('show');
+                chevron.classList.add('chevron-up');
+            } else {
+                dropdownMenu.classList.remove('show');
+                chevron.classList.remove('chevron-up');
+            }
+        }
+
+        // Evento para el clic en la píldora (Abre/Cierra)
+        activeBtn.addEventListener('click', () => {
+            toggleDropdown();
+        });
+
+        // Evento para el clic en los ítems del menú (Cambia el idioma)
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const newLang = e.currentTarget.getAttribute('data-lang');
+                setLanguage(newLang);
+            });
+        });
+
+        // Cerrar el menú si se hace clic fuera
+        document.addEventListener('click', (e) => {
+            if (!activeBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                toggleDropdown(false);
+            }
+        });
+
+        // Inicializar con Español activo (asegurar que 'EN' esté visible en el dropdown)
+        setLanguage('es'); 
+    </script>
+
+</body>
+
+</html>

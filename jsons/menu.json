@@ -1,0 +1,132 @@
+{
+  "config": {
+    "currency": "MXN",
+    "tax_included": true,
+    "languages": [
+      { "code": "es", "label": "Español", "flag": "mx" },
+      { "code": "en", "label": "English", "flag": "us" }
+    ]
+  },
+  "menu": {
+    "entradas": {
+      "name": { "es": "Entradas", "en": "Appetizers" },
+      "items": [
+        {
+          "id": "ent-001",
+          "name": { "es": "Guacamole", "en": "Guacamole" },
+          "description": {
+            "es": "Hecho al momento (aguacate, jitomate, cebolla y cilantro). Acompañado con chicharrón de costra y un pequeño toque de queso cotija",
+            "en": "Made to order (avocado, tomato, onion and cilantro). Accompanied with pork rind crust and a touch of cotija cheese"
+          },
+          "price": 150
+        },
+        {
+          "id": "ent-002",
+          "name": { "es": "Queso Fundido", "en": "Melted Cheese" },
+          "description": {
+            "es": "Selección de quesos fundidos a la parrilla. Un ingrediente a elegir: Chorizo, Chicharrón prensado, Hongos o Rajas poblanas.",
+            "en": "Selection of grilled melted cheeses. One ingredient to choose: Chorizo, pressed pork rind, mushrooms or poblano pepper strips."
+          },
+          "price": 190
+        }
+      ]
+    },
+    "desayunos": {
+      "name": { "es": "Desayunos", "en": "Breakfast" },
+      "note": {
+        "es": "Incluyen una taza de café americano de cortesía",
+        "en": "Includes a complimentary cup of American coffee"
+      },
+      "items": [
+        {
+          "id": "des-001",
+          "name": { "es": "Bowl de Fruta", "en": "Fruit Bowl" },
+          "description": {
+            "es": "Fruta de temporada, frutos rojos, yogurt, miel y granola",
+            "en": "Seasonal fruit, berries, yogurt, honey and granola"
+          },
+          "price": 155
+        },
+        {
+          "id": "des-002",
+          "name": { "es": "Huevos Divorciados", "en": "Divorced Eggs" },
+          "description": {
+            "es": "2 huevos estrellados bañados en salsa verde y roja. Acompañados de frijoles caseros y chilaquiles.",
+            "en": "2 fried eggs topped with green and red sauce. Served with homemade beans and chilaquiles."
+          },
+          "price": 195
+        },
+        {
+          "id": "des-003",
+          "name": {
+            "es": "Chilaquiles Michoacán",
+            "en": "Michoacán Chilaquiles"
+          },
+          "description": {
+            "es": "Chilaquiles verdes con chamorro estilo carnitas, cebolla curtida, crema y queso.",
+            "en": "Green chilaquiles with carnitas-style pork shank, pickled onion, cream and cheese."
+          },
+          "price": 225
+        }
+      ]
+    },
+    "cocina_mexicana": {
+      "name": { "es": "Cocina Mexicana", "en": "Mexican Cuisine" },
+      "items": [
+        {
+          "id": "mex-001",
+          "name": { "es": "Tesoro de Oaxaca", "en": "Oaxaca Treasure" },
+          "description": {
+            "es": "Tlayuda con frijoles, mezcla de quesos, chorizo y top sirloin a la parrilla.",
+            "en": "Tlayuda with beans, cheese blend, chorizo and grilled top sirloin."
+          },
+          "price": 285
+        }
+      ]
+    },
+    "pizzas": {
+      "name": { "es": "Pizza", "en": "Pizza" },
+      "items": [
+        {
+          "id": "piz-001",
+          "name": { "es": "Pepperoni", "en": "Pepperoni" },
+          "description": {
+            "es": "Salsa de tomate a las finas hierbas, queso mozzarella, pepperoni y orégano.",
+            "en": "Herb tomato sauce, mozzarella cheese, pepperoni and oregano."
+          },
+          "price": 255
+        }
+      ]
+    },
+    "postres": {
+      "name": { "es": "Postres", "en": "Desserts" },
+      "items": [
+        {
+          "id": "pos-001",
+          "name": { "es": "Flan Casa Valentina", "en": "Casa Valentina Flan" },
+          "description": {
+            "es": "Flan casero bañado en rompope de capuchino.",
+            "en": "Homemade flan topped with cappuccino eggnog."
+          },
+          "price": 150
+        }
+      ]
+    },
+    "bebidas": {
+      "name": { "es": "Bebidas", "en": "Beverages" },
+      "items": [
+        {
+          "id": "beb-001",
+          "name": { "es": "Café Capuchino", "en": "Cappuccino Coffee" },
+          "price": 75,
+          "extras": { "es": "Sabor extra +$20", "en": "Extra flavor +$20" }
+        },
+        {
+          "id": "beb-002",
+          "name": { "es": "Mimosa", "en": "Mimosa" },
+          "price": 130
+        }
+      ]
+    }
+  }
+}

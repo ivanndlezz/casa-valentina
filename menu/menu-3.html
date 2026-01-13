@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Casa Valentina - Menú</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --verde-oscuro: #2d451c;
+            --verde-medio: #5a7d3f;
+            --verde-claro: #a8be5f;
+            --blanco: #ffffff;
+            --gris-texto: #666666;
+            --dorado: #ffd700;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 4px 12px rgba(90, 125, 63, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            background: #f8f9fa;
+            padding-bottom: 60px;
+        }
+
+        /* WELCOME SCREEN */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--verde-medio) 0%, var(--verde-oscuro) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-logo {
+            width: 150px;
+            height: 150px;
+            background: var(--blanco);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .welcome-title {
+            color: var(--blanco);
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .language-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 80%;
+            max-width: 300px;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .lang-btn {
+            padding: 18px 32px;
+            background: var(--blanco);
+            color: var(--verde-oscuro);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--verde-claro);
+            border-top: 4px solid var(--verde-oscuro);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: var(--verde-oscuro);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* MAIN CONTAINER */
+        .app-container {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+        }
+
+        .app-container.active {
+            opacity: 1;
+        }
+
+        /* HEADER */
+        .app-header {
+            background: var(--blanco);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--verde-oscuro);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-toggle {
+            background: var(--verde-claro);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--blanco);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* SEARCH BAR */
+        .search-container {
+            position: relative;
+            padding: 12px 16px;
+            background: var(--blanco);
+        }
+
+        .search-icon-btn {
+            position: absolute;
+            right: 26px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--verde-claro);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .search-icon-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 48px 12px 16px;
+            border: 2px solid var(--verde-medio);
+            border-radius: 24px;
+            background: var(--blanco);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            box-shadow: var(--shadow-lg);
+            display: none;
+        }
+
+        .search-bar.active {
+            display: block;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        .search-close {
+            position: absolute;
+            right: 26px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: none;
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        .search-close.active {
+            display: block;
+        }
+
+        .search-results-count {
+            padding: 8px 16px;
+            background: rgba(168, 190, 95, 0.2);
+            font-size: 0.9rem;
+            color: var(--verde-oscuro);
+            font-weight: 600;
+            display: none;
+        }
+
+        .search-results-count.active {
+            display: block;
+        }
+
+        /* CATEGORY CHIPS */
+        .category-chips {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            overflow-x: auto;
+            background: var(--blanco);
+            scrollbar-width: none;
+            transition: all 0.3s ease;
+        }
+
+        .category-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-chips.hidden {
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .chip {
+            padding: 8px 20px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .chip.active {
+            background: var(--verde-claro);
+            color: var(--blanco);
+            border-color: var(--verde-medio);
+        }
+
+        /* CONTENT */
+        .app-content {
+            padding: 16px;
+            padding-bottom: 80px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* DISH CARD */
+        .dish-card {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dish-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .dish-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--dorado);
+            color: var(--verde-oscuro);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dish-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--verde-oscuro);
+            margin-bottom: 8px;
+        }
+
+        .dish-description {
+            font-size: 0.9rem;
+            color: var(--gris-texto);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .dish-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--verde-medio);
+        }
+
+        .dish-notes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .note-tag {
+            background: rgba(168, 190, 95, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--verde-oscuro);
+        }
+
+        mark {
+            background: rgba(255, 215, 0, 0.3);
+            color: var(--verde-oscuro);
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gris-texto);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--verde-oscuro);
+        }
+
+        .empty-state-text {
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .suggestions {
+            text-align: left;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .suggestions li {
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        /* BOTTOM SHEET */
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .bottom-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--blanco);
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 999;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .bottom-sheet.active {
+            transform: translateY(0);
+        }
+
+        .sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        .sheet-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--verde-oscuro);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .sheet-item {
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sheet-item:active {
+            transform: scale(0.98);
+            background: #e9ecef;
+        }
+
+        .sheet-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .sheet-text {
+            flex: 1;
+        }
+
+        .sheet-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--verde-oscuro);
+        }
+
+        .sheet-value {
+            font-size: 0.85rem;
+            color: var(--gris-texto);
+            font-style: italic;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(90, 125, 63, 0.1);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            color: var(--gris-texto);
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--verde-medio);
+            background: rgba(168, 190, 95, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (min-width: 768px) {
+            .app-content {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- WELCOME SCREEN -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-logo">🌿</div>
+        <h1 class="welcome-title">Casa Valentina</h1>
+        <p class="welcome-subtitle">Jardín & Cocina</p>
+        <div class="language-selector">
+            <button class="lang-btn" onclick="selectLanguage('es')">
+                <span>🇪🇸</span>
+                <span>Español</span>
+            </button>
+            <button class="lang-btn" onclick="selectLanguage('en')">
+                <span>🇬🇧</span>
+                <span>English</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Cargando menú...</div>
+    </div>
+
+    <!-- APP CONTAINER -->
+    <div class="app-container" id="appContainer">
+        <!-- HEADER -->
+        <div class="app-header">
+            <div class="header-title">
+                <span id="headerIcon">🍽️</span>
+                <span id="headerTitle">Menú</span>
+            </div>
+            <button class="lang-toggle" onclick="toggleLanguage()" id="langToggle">🇪🇸 ES</button>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-container" id="searchContainer">
+            <button class="search-icon-btn" id="searchIconBtn" onclick="toggleSearch()">🔍</button>
+            <input type="search" class="search-bar" id="searchBar" placeholder="Buscar platillos..."
+                oninput="handleSearch()">
+            <span class="search-close" id="searchClose" onclick="closeSearch()">✕</span>
+        </div>
+        <div class="search-results-count" id="searchResultsCount"></div>
+
+        <!-- CATEGORY CHIPS -->
+        <div class="category-chips" id="categoryChips"></div>
+
+        <!-- CONTENT -->
+        <div class="app-content">
+            <!-- MENU SCREEN -->
+            <div class="screen active" id="menuScreen">
+                <div id="menuContent"></div>
+            </div>
+
+            <!-- FAVORITES SCREEN -->
+            <div class="screen" id="favoritesScreen">
+                <div id="favoritesContent"></div>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('menu')">
+                <div class="nav-icon">🍽️</div>
+                <div class="nav-label" id="navMenu">Menú</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('favorites')">
+                <div class="nav-icon">⭐</div>
+                <div class="nav-label" id="navFavorites">Favoritos</div>
+            </div>
+            <div class="nav-item" onclick="toggleBottomSheet()">
+                <div class="nav-icon">☰</div>
+                <div class="nav-label" id="navMore">Más</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM SHEET -->
+    <div class="bottom-sheet-overlay" id="bottomSheetOverlay" onclick="closeBottomSheet()"></div>
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="sheet-handle"></div>
+        <h2 class="sheet-title" id="sheetTitle">Más opciones</h2>
+        <div class="sheet-item" onclick="alert('Nosotros')">
+            <div class="sheet-icon">ℹ️</div>
+            <div class="sheet-text">
+                <div class="sheet-label" id="sheetAbout">Nosotros</div>
+                <div class="sheet-value" id="sheetAboutDesc">Conoce nuestra historia</div>
+            </div>
+        </div>
+        <div class="sheet-item" onclick="window.open('tel:6241726241')">
+            <div class="sheet-icon">📱</div>
+            <div class="sheet-text">
+                <div class="sheet-label" id="sheetContact">Contacto</div>
+                <div class="sheet-value">624 172 6241</div>
+            </div>
+        </div>
+        <div class="sheet-item" onclick="alert('Horarios: Mar - Dom: 8am - 10pm')">
+            <div class="sheet-icon">🕐</div>
+            <div class="sheet-text">
+                <div class="sheet-label" id="sheetHours">Horarios</div>
+                <div class="sheet-value" id="sheetHoursDesc">Mar - Dom: 8am - 10pm</div>
+            </div>
+        </div>
+        <div class="sheet-item" onclick="toggleLanguage(); closeBottomSheet()">
+            <div class="sheet-icon">🌐</div>
+            <div class="sheet-text">
+                <div class="sheet-label" id="sheetLanguage">Idioma</div>
+                <div class="sheet-value" id="sheetLanguageValue">Español</div>
+            </div>
+        </div>
+        <div class="sheet-item" onclick="window.open('https://casavalentina.com.mx/facturacion/')">
+            <div class="sheet-icon">📄</div>
+            <div class="sheet-text">
+                <div class="sheet-label" id="sheetInvoice">Facturación</div>
+                <div class="sheet-value" id="sheetInvoiceDesc">Solicita tu factura</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // ======================
+        // CONFIGURACIÓN GOOGLE SHEETS
+        // ======================
+        const SHEET_ID = '11kdR4uRpOzgeag7YU6gJFfEwywcojb3HKfyhcnJerJ0';
+        const API_KEY = 'AIzaSyCByA7B2iScpsJ4ao5_u3oGcI2zgsV_UXw';
+
+        // ======================
+        // ESTADO GLOBAL
+        // ======================
+        let currentLanguage = null;
+        let currentTab = 'menu';
+        let currentCategory = 'all';
+        let searchActive = false;
+        let searchQuery = '';
+        let menuData = null;
+        let allDishes = [];
+
+        const FAVORITES_NAMES = [
+            "Tesoro de Oaxaca",
+            "Chisme de Tendedero",
+            "Pan Francés",
+            "Chilaquiles Divorciados",
+            "Virreynal",
+            "Ah... Pa' churros!"
+        ];
+
+        // ======================
+        // MAPA DE COLUMNAS
+        // ======================
+        const SHEET_MAP = {
+            section: 0,
+            category: 1,
+            name: 2,
+            description: 3,
+            price: 4,
+            meta1: 5,
+            meta2: 6,
+            meta3: 7
+        };
+
+        // ======================
+        // REGLAS
+        // ======================
+        const RULES = {
+            isNewSection: row => row[SHEET_MAP.section]?.trim(),
+            isNewCategory: row => row[SHEET_MAP.category]?.trim(),
+            isItem: row => row[SHEET_MAP.name]?.trim(),
+            isImage: val => typeof val === "string" && val.includes("http"),
+            isSpecialFlag: val => val === "E"
+        };
+
+        // ======================
+        // TRANSFORMADOR
+        // ======================
+        function buildMenuModel(rows) {
+            const menu = { sections: [] };
+            let currentSection = null;
+            let currentCategory = null;
+
+            for (const row of rows) {
+                // Sección
+                if (RULES.isNewSection(row)) {
+                    currentSection = {
+                        title: row[SHEET_MAP.section].trim(),
+                        categories: []
+                    };
+                    menu.sections.push(currentSection);
+                    currentCategory = null;
+                }
+
+                // Categoría
+                if (RULES.isNewCategory(row)) {
+                    if (!currentSection) {
+                        currentSection = {
+                            title: "General",
+                            categories: []
+                        };
+                        menu.sections.push(currentSection);
+                    }
+
+                    currentCategory = {
+                        name: row[SHEET_MAP.category].trim(),
+                        items: []
+                    };
+                    currentSection.categories.push(currentCategory);
+                }
+
+                // Platillo
+                if (RULES.isItem(row)) {
+                    if (!currentCategory) {
+                        if (!currentSection) {
+                            currentSection = {
+                                title: "General",
+                                categories: []
+                            };
+                            menu.sections.push(currentSection);
+                        }
+
+                        currentCategory = {
+                            name: "General",
+                            items: []
+                        };
+                        currentSection.categories.push(currentCategory);
+                    }
+
+                    const images = [];
+                    const notes = [];
+
+                    const metaCols = [
+                        row[SHEET_MAP.meta1],
+                        row[SHEET_MAP.meta2],
+                        row[SHEET_MAP.meta3]
+                    ];
+
+                    metaCols.forEach(val => {
+                        if (RULES.isImage(val)) images.push(val);
+                        else if (val && !RULES.isSpecialFlag(val)) notes.push(val);
+                    });
+
+                    const item = {
+                        name: row[SHEET_MAP.name].trim(),
+                        description: row[SHEET_MAP.description]?.trim() || "",
+                        price: row[SHEET_MAP.price] ? Number(row[SHEET_MAP.price]) : null,
+                        notes,
+                        images,
+                        flags: {
+                            special: RULES.isSpecialFlag(row[SHEET_MAP.meta1])
+                        }
+                    };
+
+                    currentCategory.items.push(item);
+                }
+            }
+
+            return menu;
+        }
+
+        // ======================
+        // OBTENER DATOS DE GOOGLE SHEETS
+        // ======================
+        async function getSheetData(tabName) {
+            const range = `${tabName}!A2:AZ900`;
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`;
+
+            console.log("🔗 Fetching:", url);
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                console.log("📄 Datos crudos de Google Sheets:");
+                console.log(data.values);
+
+                return data.values || [];
+            } catch (error) {
+                console.error("❌ Error fetching data:", error);
+                return [];
+            }
+        }
+
+        // ======================
+        // TRADUCCIONES UI
+        // ======================
+        const TRANSLATIONS = {
+            es: {
+                menu: "Menú",
+                favorites: "Favoritos",
+                more: "Más",
+                search: "Buscar platillos...",
+                results: "Resultados",
+                noResults: "No encontramos",
+                tryWith: "Intenta con:",
+                all: "Todos",
+                moreOptions: "Más opciones",
+                about: "Nosotros",
+                aboutDesc: "Conoce nuestra historia",
+                contact: "Contacto",
+                hoursLabel: "Horarios",
+                hoursDesc: "Mar - Dom: 8am - 10pm",
+                language: "Idioma",
+                languageValue: "Español",
+                invoice: "Facturación",
+                invoiceDesc: "Solicita tu factura",
+                favoritesTitle: "Los Favoritos",
+                favoritesDesc: "Nuestros platillos más queridos",
+                loading: "Cargando menú..."
+            },
+            en: {
+                menu: "Menu",
+                favorites: "Favorites",
+                more: "More",
+                search: "Search dishes...",
+                results: "Results",
+                noResults: "No results for",
+                tryWith: "Try with:",
+                all: "All",
+                moreOptions: "More options",
+                about: "About us",
+                aboutDesc: "Know our story",
+                contact: "Contact",
+                hoursLabel: "Hours",
+                hoursDesc: "Tue - Sun: 8am - 10pm",
+                language: "Language",
+                languageValue: "English",
+                invoice: "Invoice",
+                invoiceDesc: "Request your invoice",
+                favoritesTitle: "The Favorites",
+                favoritesDesc: "Our most beloved dishes",
+                loading: "Loading menu..."
+            }
+        };
+
+        // ======================
+        // FUNCIONES PRINCIPALES
+        // ======================
+        async function selectLanguage(lang) {
+            currentLanguage = lang;
+            try {
+                localStorage.setItem('casavalentina_lang', lang);
+            } catch (e) {
+                console.log('localStorage not available');
+            }
+
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+
+            updateLoadingText();
+
+            await loadMenuData();
+
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                document.getElementById('appContainer').classList.add('active');
+            }, 500);
+        }
+
+        async function loadMenuData() {
+            try {
+                const tabName = currentLanguage === 'es' ? 'ESP - DESAYUNOS' : 'ENG - BREAKFAST';
+                const rows = await getSheetData(tabName);
+
+                menuData = buildMenuModel(rows);
+                console.log("🍽️ Menú procesado:", menuData);
+
+                initializeApp();
+            } catch (error) {
+                console.error("❌ Error loading menu:", error);
+                menuData = { sections: [] };
+                initializeApp();
+            }
+        }
+
+        function initializeApp() {
+            updateLanguageToggle();
+            updateUITranslations();
+            buildAllDishes();
+            renderCategories();
+            renderMenuContent();
+            renderFavorites();
+        }
+
+        function updateLoadingText() {
+            const t = TRANSLATIONS[currentLanguage];
+            document.getElementById('loadingText').textContent = t.loading;
+        }
+
+        function updateLanguageToggle() {
+            const toggle = document.getElementById('langToggle');
+            toggle.textContent = currentLanguage === 'es' ? '🇪🇸 ES' : '🇬🇧 EN';
+        }
+
+        function updateUITranslations() {
+            const t = TRANSLATIONS[currentLanguage];
+
+            document.getElementById('navMenu').textContent = t.menu;
+            document.getElementById('navFavorites').textContent = t.favorites;
+            document.getElementById('navMore').textContent = t.more;
+
+            document.getElementById('searchBar').placeholder = t.search;
+
+            document.getElementById('sheetTitle').textContent = t.moreOptions;
+            document.getElementById('sheetAbout').textContent = t.about;
+            document.getElementById('sheetAboutDesc').textContent = t.aboutDesc;
+            document.getElementById('sheetContact').textContent = t.contact;
+            document.getElementById('sheetHours').textContent = t.hoursLabel;
+            document.getElementById('sheetHoursDesc').textContent = t.hoursDesc;
+            document.getElementById('sheetLanguage').textContent = t.language;
+            document.getElementById('sheetLanguageValue').textContent = t.languageValue;
+            document.getElementById('sheetInvoice').textContent = t.invoice;
+            document.getElementById('sheetInvoiceDesc').textContent = t.invoiceDesc;
+        }
+
+        function buildAllDishes() {
+            allDishes = [];
+            if (!menuData || !menuData.sections) return;
+
+            menuData.sections.forEach(section => {
+                section.categories.forEach(category => {
+                    category.items.forEach(item => {
+                        allDishes.push({
+                            ...item,
+                            section: section.title,
+                            category: category.name
+                        });
+                    });
+                });
+            });
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoryChips');
+            const t = TRANSLATIONS[currentLanguage];
+
+            let html = `<div class="chip active" onclick="filterByCategory('all')">${t.all}</div>`;
+
+            if (menuData && menuData.sections) {
+                menuData.sections.forEach(section => {
+                    const safeTitle = section.title.replace(/'/g, "\\'");
+                    html += `<div class="chip" onclick="filterByCategory('${safeTitle}')">${section.title}</div>`;
+                });
+            }
+
+            container.innerHTML = html;
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+
+            // Find and activate the clicked chip
+            chips.forEach(chip => {
+                if (chip.textContent === category || (category === 'all' && chip.textContent === TRANSLATIONS[currentLanguage].all)) {
+                    chip.classList.add('active');
+                }
+            });
+
+            renderMenuContent();
+        }
+
+        function renderMenuContent() {
+            const container = document.getElementById('menuContent');
+            let dishes = allDishes;
+
+            if (currentCategory !== 'all') {
+                dishes = dishes.filter(d => d.section === currentCategory);
+            }
+
+            if (searchQuery) {
+                dishes = searchDishes(searchQuery);
+            }
+
+            if (dishes.length === 0) {
+                container.innerHTML = renderEmptyState();
+                return;
+            }
+
+            let html = '';
+            dishes.forEach(dish => {
+                html += renderDishCard(dish);
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderDishCard(dish) {
+            const name = dish.name;
+            const desc = dish.description;
+            const price = dish.price;
+            const hasImage = dish.images && dish.images.length > 0;
+            const isSpecial = dish.flags.special;
+
+            return `
+        <div class="dish-card">
+            ${hasImage ? `<img src="${dish.images[0]}" alt="${name}" class="dish-image" loading="lazy">` : ''}
+            ${isSpecial ? '<div class="dish-badge">E</div>' : ''}
+            <div class="dish-name">${highlightMatch(name, searchQuery)}</div>
+            <div class="dish-description">${highlightMatch(desc, searchQuery)}</div>
+            ${price ? `<div class="dish-price">${price} MXN</div>` : ''}
+            ${dish.notes.length > 0 ? `
+                <div class="dish-notes">
+                    ${dish.notes.map(note => `<span class="note-tag">${note}</span>`).join('')}
+                </div>
+            ` : ''}
+        </div>
+    `;
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favoritesContent');
+            const t = TRANSLATIONS[currentLanguage];
+
+            let html = `
+        <div style="text-align: center; padding: 20px 0; background: linear-gradient(135deg, var(--verde-claro) 0%, var(--verde-medio) 100%); color: white; border-radius: 12px; margin-bottom: 24px;">
+            <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 8px;">${t.favoritesTitle}</h2>
+            <p style="font-size: 1.2rem; font-style: italic;">${t.favoritesDesc}</p>
+        </div>
+    `;
+
+            const favorites = allDishes.filter(dish =>
+                FAVORITES_NAMES.some(favName =>
+                    dish.name.toLowerCase().includes(favName.toLowerCase())
+                )
+            );
+
+            if (favorites.length === 0) {
+                html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">⭐</div>
+                <div class="empty-state-title">Próximamente</div>
+                <div class="empty-state-text">Los favoritos aparecerán aquí</div>
+            </div>
+        `;
+            } else {
+                favorites.forEach(dish => {
+                    html += renderDishCard(dish);
+                });
+            }
+
+            container.innerHTML = html;
+        }
+
+        function searchDishes(query) {
+            if (!query.trim()) return allDishes;
+
+            const lowerQuery = query.toLowerCase();
+
+            return allDishes.filter(dish => {
+                const name = dish.name.toLowerCase();
+                const desc = dish.description.toLowerCase();
+                const notes = dish.notes.join(' ').toLowerCase();
+
+                return name.includes(lowerQuery) ||
+                    desc.includes(lowerQuery) ||
+                    notes.includes(lowerQuery);
+            });
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        function renderEmptyState() {
+            const t = TRANSLATIONS[currentLanguage];
+
+            return `
+        <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-title">${t.noResults}</div>
+            <div class="empty-state-text">"${searchQuery}"</div>
+            <div class="suggestions">
+                <p><strong>${t.tryWith}</strong></p>
+                <ul>
+                    <li>Chilaquiles</li>
+                    <li>Enchiladas</li>
+                    <li>Café</li>
+                </ul>
+            </div>
+        </div>
+    `;
+        }
+
+        // ======================
+        // NAVEGACIÓN
+        // ======================
+        function switchTab(tab) {
+            currentTab = tab;
+
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(s => s.classList.remove('active'));
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(`${tab}Screen`).classList.add('active');
+
+            // Find and activate the clicked nav item
+            navItems.forEach(item => {
+                const icon = item.querySelector('.nav-icon').textContent;
+                if ((tab === 'menu' && icon === '🍽️') || (tab === 'favorites' && icon === '⭐')) {
+                    item.classList.add('active');
+                }
+            });
+
+            const icons = { menu: '🍽️', favorites: '⭐' };
+            const titles = {
+                menu: TRANSLATIONS[currentLanguage].menu,
+                favorites: TRANSLATIONS[currentLanguage].favorites
+            };
+
+            document.getElementById('headerIcon').textContent = icons[tab];
+            document.getElementById('headerTitle').textContent = titles[tab];
+
+            if (tab === 'menu') {
+                document.getElementById('searchContainer').style.display = 'block';
+                document.getElementById('categoryChips').style.display = 'flex';
+            } else {
+                document.getElementById('searchContainer').style.display = 'none';
+                document.getElementById('categoryChips').style.display = 'none';
+                closeSearch();
+            }
+        }
+
+        // ======================
+        // BÚSQUEDA
+        // ======================
+        function toggleSearch() {
+            searchActive = !searchActive;
+
+            const searchBar = document.getElementById('searchBar');
+            const searchIcon = document.getElementById('searchIconBtn');
+            const searchClose = document.getElementById('searchClose');
+            const chips = document.getElementById('categoryChips');
+
+            if (searchActive) {
+                searchBar.classList.add('active');
+                searchClose.classList.add('active');
+                searchIcon.style.display = 'none';
+                chips.classList.add('hidden');
+                searchBar.focus();
+            }
+        }
+
+        function closeSearch() {
+            searchActive = false;
+            searchQuery = '';
+
+            const searchBar = document.getElementById('searchBar');
+            const searchIcon = document.getElementById('searchIconBtn');
+            const searchClose = document.getElementById('searchClose');
+            const chips = document.getElementById('categoryChips');
+            const resultsCount = document.getElementById('searchResultsCount');
+
+            searchBar.classList.remove('active');
+            searchClose.classList.remove('active');
+            searchIcon.style.display = 'flex';
+            chips.classList.remove('hidden');
+            resultsCount.classList.remove('active');
+
+            searchBar.value = '';
+            renderMenuContent();
+        }
+
+        function handleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            searchQuery = searchBar.value;
+
+            const results = searchDishes(searchQuery);
+            const resultsCount = document.getElementById('searchResultsCount');
+            const t = TRANSLATIONS[currentLanguage];
+
+            if (searchQuery) {
+                resultsCount.textContent = `${t.results} (${results.length})`;
+                resultsCount.classList.add('active');
+            } else {
+                resultsCount.classList.remove('active');
+            }
+
+            renderMenuContent();
+        }
+
+        // ======================
+        // BOTTOM SHEET
+        // ======================
+        function toggleBottomSheet() {
+            const overlay = document.getElementById('bottomSheetOverlay');
+            const sheet = document.getElementById('bottomSheet');
+
+            overlay.classList.add('active');
+            sheet.classList.add('active');
+        }
+
+        function closeBottomSheet() {
+            const overlay = document.getElementById('bottomSheetOverlay');
+            const sheet = document.getElementById('bottomSheet');
+
+            overlay.classList.remove('active');
+            sheet.classList.remove('active');
+        }
+
+        // ======================
+        // CAMBIO DE IDIOMA
+        // ======================
+        async function toggleLanguage() {
+            const newLang = currentLanguage === 'es' ? 'en' : 'es';
+
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+
+            currentLanguage = newLang;
+            try {
+                localStorage.setItem('casavalentina_lang', newLang);
+            } catch (e) {
+                console.log('localStorage not available');
+            }
+
+            updateLoadingText();
+
+            await loadMenuData();
+
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 500);
+        }
+
+        // ======================
+        // INICIALIZACIÓN
+        // ======================
+        window.onload = function () {
+            let savedLang = null;
+            try {
+                savedLang = localStorage.getItem('casavalentina_lang');
+            } catch (e) {
+                console.log('localStorage not available');
+            }
+
+            if (savedLang) {
+                selectLanguage(savedLang);
+            }
+        };
+    </script>
+</body>
+
+</html>
